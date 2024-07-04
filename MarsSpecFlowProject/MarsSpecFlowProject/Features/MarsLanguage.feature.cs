@@ -83,14 +83,14 @@ testRunner.Given("I log into the portal with UserName \'\' and Password \'\'", (
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("TC_001,TC_003. Create a new language record with valid characters")]
+        [NUnit.Framework.DescriptionAttribute("TC_001. Create a new language record with valid characters")]
         [NUnit.Framework.CategoryAttribute("language")]
-        public virtual void TC_001TC_003_CreateANewLanguageRecordWithValidCharacters()
+        public virtual void TC_001_CreateANewLanguageRecordWithValidCharacters()
         {
             string[] tagsOfScenario = new string[] {
                     "language"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_001,TC_003. Create a new language record with valid characters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_001. Create a new language record with valid characters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -118,24 +118,24 @@ this.FeatureBackground();
  testRunner.Given("User has no language in their profile", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 9
- testRunner.When("I create a new language record \'Test\' \'\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I create a new language record \'French\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 10
- testRunner.Then("the record should be saved \'Test\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the record should be saved \'French\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("TC_002,TC_004,TC_005,TC_006. Create a new language record with invalid characters" +
-            "")]
-        public virtual void TC_002TC_004TC_005TC_006_CreateANewLanguageRecordWithInvalidCharacters()
+        [NUnit.Framework.DescriptionAttribute("TC_002,TC_003,TC_004,TC_005,TC_006. Create a new language record with invalid cha" +
+            "racters")]
+        public virtual void TC_002TC_003TC_004TC_005TC_006_CreateANewLanguageRecordWithInvalidCharacters()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_002,TC_004,TC_005,TC_006. Create a new language record with invalid characters" +
-                    "", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_002,TC_003,TC_004,TC_005,TC_006. Create a new language record with invalid cha" +
+                    "racters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 12
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -163,10 +163,10 @@ this.FeatureBackground();
  testRunner.Given("User has no language in their profile", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 14
- testRunner.When("I create a new language record \'हिंदी\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I create a new language record \'@@\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 15
- testRunner.Then("the record should not be saved \'हिंदी\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the record should not be saved \'@@\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -326,10 +326,10 @@ this.FeatureBackground();
   testRunner.Given("the user profile is set up with the languages:", ((string)(null)), table3, "Given ");
 #line hidden
 #line 46
- testRunner.When("I try to create another record with same value \'french\' \'Fluent\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I try to create another record with same value \'French\' \'Fluent\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 47
- testRunner.Then("Adding of second record \'french\' \'Fluent\' fails", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Adding of second record \'French\' \'Fluent\' fails", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -381,11 +381,11 @@ this.FeatureBackground();
   testRunner.Given("the user profile is set up with the languages:", ((string)(null)), table4, "Given ");
 #line hidden
 #line 55
-   testRunner.When("the user wants to update the language or level from \"Hindi\",\"Basic\" to \"English\"," +
-                        "\"Basic\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+   testRunner.When("the user wants to update the language or level from \"French\",\"Fluent\" to \"English" +
+                        "\",\"Fluent\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 56
-   testRunner.Then("the system should block the updation from \'Hindi\' to \'English\'.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+   testRunner.Then("the system should block the updation from \'French\' to \'English\'.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

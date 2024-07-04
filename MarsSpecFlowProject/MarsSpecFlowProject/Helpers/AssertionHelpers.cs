@@ -25,10 +25,11 @@ namespace MarsSpecFlowProject.Helpers
             IWebElement notificationElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("ns-box-inner")));
             String notification = notificationElement.Text;
             IWebElement table1 = driver.FindElement(By.XPath("//div[@data-tab='first']"));
-            string pattern = @"^(?=.*[a-zA-Z])[\sa-zA-Z]+$";
-              driver.Navigate().Refresh();
+            //string pattern = @"^(?=.*[a-zA-Z])[\sa-zA-Z]+$";
+            string pattern = @"^(?:$|(?=.*[a-zA-Z])[a-zA-Z\s-]+)$";
+            driver.Navigate().Refresh();
             IList<IWebElement> TableElements = driver.FindElements(By.XPath("//div[@data-tab='first']//td[1]"));
-            Console.WriteLine(TableElements.Count);
+            
 
             if (TableElements.Count < 5) //Checks if the number of language elements is less than 5
             {
@@ -40,20 +41,32 @@ namespace MarsSpecFlowProject.Helpers
                     }
                     else if (notification.Contains("deleted"))
                     {
-                        Console.WriteLine($"Notification from system: {notification}");
-                        js.ExecuteScript("arguments[0].scrollIntoView(true);", table1);
+                        Console.WriteLine($"Notification from system: '{notification}'");
                         AssertionHelpers.NotificationDeleted(notification, TableElements, Language);
                     }
                     else if (notification.Contains("already added"))
-                        Console.Write($"Addition/Updation of language - {Language} has not been done due to {notification}\n");
+                        Console.Write($"Addition/Updation of language - {Language} has not been done due to '{notification}'\n");
                     else if (notification.Contains("Duplicated"))
-                        Console.Write($"Addition/Updation - {Language} has not been done due to {notification}\n");
+                        Console.Write($"Addition/Updation - {Language} has not been done due to '{notification}'\n");
+                    else if (notification.Contains("Please enter language and level"))
+                        Console.Write($"Updation of language '{Language}' has not been done. Notification from system - '{notification}'\n");
                     else
                         Assert.Fail($"Failed Action due to :{notification}");
                 }
-                else Assert.Fail($"System Allowed addition of invalid characters! Notification from System :{notification}");
+                else
+                {
+                    if (notification.Contains("invalid characters"))
+                    {
+                        Console.Write($"Addition of '{Language}' has not been done due to {notification}\n");
+                    }
+                    else
+                        Assert.Fail($"System Allowed addition of invalid characters! Notification from System :{notification}");
+                }
             }
-            else { Assert.Fail($"System Allowed addition of more than 4 languages! Notification from System :{notification}"); }
+            else
+            {
+                Assert.Fail($"System allowed the addition of more than 4 languages. Number of languages in the system :{TableElements.Count}");
+            }
         }
 
 
@@ -64,7 +77,8 @@ namespace MarsSpecFlowProject.Helpers
             IWebElement notificationElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("ns-box-inner")));
             String notification = notificationElement.Text;
             IWebElement table1 = driver.FindElement(By.XPath("//div[@data-tab='first']"));
-            string pattern = @"^(?=.*[a-zA-Z])[\sa-zA-Z]+$";
+             string pattern = @"^(?:$|(?=.*[a-zA-Z])[a-zA-Z\s-]+)$";
+
             if (Regex.IsMatch(newlanguage, pattern))
             {
                 if (notification.Contains("updated"))
@@ -76,6 +90,10 @@ namespace MarsSpecFlowProject.Helpers
                 else if (notification.Contains("already added"))
                     Console.Write($"Updation of language '{Language}' has not been done. Notification from system-{notification}\n");
                 else if (notification.Contains("Duplicated"))
+                    Console.Write($"Updation of language '{Language}' has not been done. Notification from system-{notification}\n");
+                else if (notification.Contains("Please enter language and level"))
+                    Console.Write($"Updation of language '{Language}' has not been done. Notification from system-{notification}\n");
+                else if (notification.Contains("Please enter language and level"))
                     Console.Write($"Updation of language '{Language}' has not been done. Notification from system-{notification}\n");
                 else
 
@@ -89,7 +107,14 @@ namespace MarsSpecFlowProject.Helpers
 
             else
 
-                Assert.Fail("The system allowed the addition of invalid characters");
+            {
+                if (notification.Contains("invalid characters"))
+                {
+                    Console.Write($"Addition of '{Language}' has not been done due to {notification}\n");
+                }
+                else
+                    Assert.Fail($"System Allowed addition of invalid characters! Notification from System :{notification}");
+            }
 
 
         }

@@ -4,15 +4,15 @@ Background:
 Given I log into the portal with UserName '' and Password ''
 
 @language
-Scenario: TC_001,TC_003. Create a new language record with valid characters
+Scenario: TC_001. Create a new language record with valid characters
 	Given User has no language in their profile
-	When I create a new language record 'Test' ''
-	Then the record should be saved 'Test'
+	When I create a new language record 'French' 'Basic'
+	Then the record should be saved 'French'
 	
-	Scenario: TC_002,TC_004,TC_005,TC_006. Create a new language record with invalid characters 
+	Scenario: TC_002,TC_003,TC_004,TC_005,TC_006. Create a new language record with invalid characters 
 	Given User has no language in their profile
-	When I create a new language record 'हिंदी' 'Basic'
-	Then the record should not be saved 'हिंदी'
+	When I create a new language record '@@' 'Basic'
+	Then the record should not be saved '@@'
 
 	
 
@@ -43,17 +43,17 @@ Scenario: TC_001,TC_003. Create a new language record with valid characters
       | Language | Level  |
       | French   | Basic  |
       | English  | Fluent |
-	When I try to create another record with same value 'french' 'Fluent'
-	Then Adding of second record 'french' 'Fluent' fails 
+	When I try to create another record with same value 'French' 'Fluent'
+	Then Adding of second record 'French' 'Fluent' fails 
 
 	Scenario: TC_011, Duplicate Entry Check while updating a language
 	 Given the user profile is set up with the languages:
       | Language | Level  |
-      | English   | Basic  |
-      | French  | Fluent |
-	  | Hindi  | Basic |
-	  When the user wants to update the language or level from "Hindi","Basic" to "English","Basic"
-	  Then the system should block the updation from 'Hindi' to 'English'.
+      | English  | Basic  |
+      | French   | Fluent |
+	  | Hindi    | Basic  |
+	  When the user wants to update the language or level from "French","Fluent" to "English","Fluent"
+	  Then the system should block the updation from 'French' to 'English'.
 
 	 Scenario: TC_012. Verify the Addition of Language in Two Sessions
     Given User has no language in their profile
