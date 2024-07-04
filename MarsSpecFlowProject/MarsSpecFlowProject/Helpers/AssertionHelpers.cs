@@ -17,7 +17,7 @@ namespace MarsSpecFlowProject.Helpers
 {
     class AssertionHelpers
     {
-       
+
         public static void AddDeleteLanguageAssert(IWebDriver driver, string Language)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
@@ -25,11 +25,10 @@ namespace MarsSpecFlowProject.Helpers
             IWebElement notificationElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("ns-box-inner")));
             String notification = notificationElement.Text;
             IWebElement table1 = driver.FindElement(By.XPath("//div[@data-tab='first']"));
-            //string pattern = @"^(?=.*[a-zA-Z])[\sa-zA-Z]+$";
             string pattern = @"^(?:$|(?=.*[a-zA-Z])[a-zA-Z\s-]+)$";
             driver.Navigate().Refresh();
             IList<IWebElement> TableElements = driver.FindElements(By.XPath("//div[@data-tab='first']//td[1]"));
-            
+
 
             if (TableElements.Count < 5) //Checks if the number of language elements is less than 5
             {
@@ -77,9 +76,8 @@ namespace MarsSpecFlowProject.Helpers
             IWebElement notificationElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("ns-box-inner")));
             String notification = notificationElement.Text;
             IWebElement table1 = driver.FindElement(By.XPath("//div[@data-tab='first']"));
-             string pattern = @"^(?:$|(?=.*[a-zA-Z])[a-zA-Z\s-]+)$";
-
-            if (Regex.IsMatch(newlanguage, pattern))
+            string pattern = @"^(?:$|(?=.*[a-zA-Z])[a-zA-Z\s-]+)$";
+             if (Regex.IsMatch(newlanguage, pattern))
             {
                 if (notification.Contains("updated"))
                 {
@@ -135,7 +133,7 @@ namespace MarsSpecFlowProject.Helpers
                 table_languages.Add(element.Text);
 
             }
-            
+
             foreach (string language in table_languages)
             {
                 int l = language.Length;
@@ -143,7 +141,7 @@ namespace MarsSpecFlowProject.Helpers
                 {
                     Assert.Fail("System Allowed the addition of Characters > 50");
                 }
-               
+
 
 
             }
@@ -154,22 +152,33 @@ namespace MarsSpecFlowProject.Helpers
             Thread.Sleep(1000);
             int Expected_Count = TableElements.Count();
             List<string> table_languages = new List<string>();
-            String TableElement = driver.FindElement(By.XPath($"//td[contains(text(),'{Language}')]")).Text;
-            foreach (IWebElement tableElement in TableElements)
-            {
-                table_languages.Add(tableElement.Text.ToLower());
-            }
+            
+            
+                foreach (IWebElement tableElement in TableElements)
+                {
+                    table_languages.Add(tableElement.Text.ToLower());
+                }
 
 
-            int ActualCount = table_languages.Distinct().Count();
+                int ActualCount = table_languages.Distinct().Count();
 
-            if (Expected_Count == ActualCount)
-            {
-                Console.WriteLine($"TEST PASSED- Notification - {notification}");
-            }
-            else
-                Assert.Fail($"The system allowed the addition of duplicate entiresNotification - {notification}");
+                if (Expected_Count == ActualCount)
+                {
+                String AddedLanguge = driver.FindElement(By.XPath($"//td[contains(text(),'{Language}')]")).Text;
+                if (AddedLanguge.Equals(Language))
+                {
+                    Console.WriteLine($"TEST PASSED- Notification - {notification}");
+                }
+                else
+                    Assert.Fail($"Element {Language} is not added");
+                }
+                else
+                    Assert.Fail($"The system allowed the addition of duplicate entiresNotification - {notification}");
+            
+            
+
         }
+
 
         public static void NotificationDeleted(string notification, IList<IWebElement> TableElements, String Language)
         {
@@ -197,26 +206,31 @@ namespace MarsSpecFlowProject.Helpers
             String UpdatedElement = driver.FindElement(By.XPath($"//td[contains(text(),'{newlanguage}')]")).Text;
             int Expected_Count = TableElements.Count();
             List<string> table_languages = new List<string>();
-            foreach (IWebElement tableElement in TableElements)
-            {
-                table_languages.Add(tableElement.Text.ToLower());
-            }
-
-          int ActualCount = table_languages.Distinct().Count();
-
-            if (Expected_Count == ActualCount)
-            {
-                if (UpdatedElement.Equals(newlanguage))
+            
+            
+                foreach (IWebElement tableElement in TableElements)
                 {
-                    Console.WriteLine($"TEST PASSED- Notification - {notification}");
+                    table_languages.Add(tableElement.Text.ToLower());
+                }
+
+                int ActualCount = table_languages.Distinct().Count();
+
+                if (Expected_Count == ActualCount)
+                {
+                    if (UpdatedElement.Equals(newlanguage))
+                    {
+                        Console.WriteLine($"TEST PASSED- Notification - {notification}");
+                    }
+                    else
+                    {
+                        Assert.Fail("Element not added in the table");
+                    }
                 }
                 else
-                {
-                    Assert.Fail("Element not added in the table");
-                }
+                    Assert.Fail($"The system allowed the addition of duplicate entires.Notification from system - {notification}");
             }
-            else
-                Assert.Fail($"The system allowed the addition of duplicate entires.Notification from system - {notification}");
         }
-    }
+    
+    
+
 }
