@@ -22,7 +22,7 @@ namespace MarsSpecFlowProject.StepDefinitions
         Login loginobj = new Login();
 
     LanguageWorkFlow  langobj = new LanguageWorkFlow();
-
+        AssertionHelpers assertobj = new AssertionHelpers();  
 
         [BeforeScenario]
         public void Setup()
@@ -60,21 +60,21 @@ namespace MarsSpecFlowProject.StepDefinitions
         [When(@"I create a new language record '([^']*)' '([^']*)'")]
         public void WhenICreateANewLanguageRecord(string Language, string Level)
         {
-            LanguageWorkFlow.Addlanguage(driver, Language, Level);
+            langobj.Addlanguage(driver, Language, Level);
             Thread.Sleep(1000);
         }
 
         [Then(@"the record should be saved '([^']*)'")]
         public void ThenTheRecordShouldBeSaved(string language)
         {
-            AssertionHelpers.AddDeleteLanguageAssert(driver, language);
+            assertobj.AddDeleteLanguageAssert(driver, language);
 
 
         }
         [Then(@"the record should not be saved '([^']*)'")]
         public void ThenTheRecordShouldNotBeSaved(string Language)
         {
-            AssertionHelpers.AddDeleteLanguageAssert(driver, Language);
+            assertobj.AddDeleteLanguageAssert(driver, Language);
         }
 
         [Given(@"the user profile is set up with the languages:")]
@@ -86,7 +86,7 @@ namespace MarsSpecFlowProject.StepDefinitions
             foreach (var language in languages)
             {
                 // Code to add the language and level to the user's profile
-                LanguageWorkFlow.Addlanguage(driver, language.language, language.Level);
+                langobj.Addlanguage(driver, language.language, language.Level);
                 Thread.Sleep(3000);
             }
 
@@ -104,35 +104,38 @@ namespace MarsSpecFlowProject.StepDefinitions
         public void WhenTheUserWantsToUpdateTheLanguageOrLevelFromTo(string language, string languagelevel, string newlanguage, string newlanguagelevel)
         {
             Thread.Sleep(3000);
-            LanguageWorkFlow.UpdateLanguage(driver, language, newlanguage, newlanguagelevel);
+            langobj.UpdateLanguage(driver, language, newlanguage, newlanguagelevel);
 
         }
 
 
-        [Then(@"the result of update from  ""([^""]*)"",""([^""]*)"" to ""([^""]*)"",""([^""]*)"" is possible")]
-        public void ThenTheResultOfUpdateFromToIsPossible(string language, string languagelevel, string newlanguage, string newlanguagelevel)
+       
+
+        [Then(@"the update from  ""([^""]*)"",""([^""]*)"" to ""([^""]*)"",""([^""]*)"" is possible")]
+        public void ThenTheUpdateFromToIsPossible(string language, string languagelevel, string newlanguage, string newlanguagelevel)
         {
-            AssertionHelpers.UpdateAssertions(driver, language, newlanguage);
+            assertobj.UpdateAssertions(driver, language, newlanguage);
         }
 
 
         [When(@"the user wants to delete the language  ""([^""]*)""")]
         public void WhenTheUserWantsToDeleteTheLanguage(string language)
         {
+            Thread.Sleep(1000);
             langobj.deletelanguage(driver, language);
         }
 
         [Then(@"the language ""([^""]*)"" should be deleted\.")]
         public void ThenTheLanguageShouldBeDeleted_(string language)
         {
-            AssertionHelpers.AddDeleteLanguageAssert(driver, language);
+            assertobj.AddDeleteLanguageAssert(driver, language);
         }
 
         [When(@"I try to create another record with same value '([^']*)' '([^']*)'")]
         public void WhenITryToCreateAnotherRecordWithSameValue(string language, string LanguageLevel)
         {
             Thread.Sleep(5000);
-            LanguageWorkFlow.Addlanguage(driver, language, LanguageLevel);
+            langobj.Addlanguage(driver, language, LanguageLevel);
 
 
         }
@@ -141,20 +144,20 @@ namespace MarsSpecFlowProject.StepDefinitions
         public void ThenAddingOfSecondRecordFails(string language, string LanguageLevel)
         {
             //LanguageWorkFlow.DuplicateEntriesAssertion(driver, language, LanguageLevel);
-            AssertionHelpers.AddDeleteLanguageAssert(driver, language);
+            assertobj.AddDeleteLanguageAssert(driver, language);
 
         }
 
         [Then(@"the system should block the updation from '([^']*)' to '([^']*)'\.")]
         public void ThenTheSystemShouldBlockTheUpdationFromTo_(string Language, string newlanguage)
         {
-            AssertionHelpers.UpdateAssertions(driver, Language, newlanguage);
+            assertobj.UpdateAssertions(driver, Language, newlanguage);
         }
 
         [Given(@"I open a second session in tab (.*)\.")]
         public void GivenIOpenASecondSessionInTab_(int SID)
         {
-            Window_Sessions.NewTab(driver);
+            WindowHandlers.NewTab(driver);
 
             langobj.Sessions(driver, SID);
 
@@ -170,7 +173,7 @@ namespace MarsSpecFlowProject.StepDefinitions
             foreach (var language in languages)
             {
                 // Code to add the language and level to the user's profile
-                LanguageWorkFlow.Addlanguage(driver, language.language, language.Level);
+                langobj.Addlanguage(driver, language.language, language.Level);
                 Thread.Sleep(3000);
             }
         }
@@ -180,7 +183,7 @@ namespace MarsSpecFlowProject.StepDefinitions
         {
             langobj.Sessions(driver, SID);
             Thread.Sleep(2000);
-            LanguageWorkFlow.Addlanguage(driver, language, languageLevel);
+            langobj.Addlanguage(driver, language, languageLevel);
         }
 
 
@@ -188,15 +191,15 @@ namespace MarsSpecFlowProject.StepDefinitions
         [Then(@"the entry of '([^']*)','([^']*)' should be blocked\.")]
         public void ThenTheEntryOfShouldBeBlocked_(string Language, string LanguageLevel)
         {
-            AssertionHelpers.AddDeleteLanguageAssert(driver, Language);
+            assertobj.AddDeleteLanguageAssert(driver, Language);
         }
 
 
         [When(@"I create a new language with (.*) random charcaters and level '([^']*)'")]
         public void WhenICreateANewLanguageWithRandomCharcatersAndLevel(int length, string Level)
         {
-            string randomString = LanguageWorkFlow.GenerateRandomString(length);
-            LanguageWorkFlow.Addlanguage(driver, randomString, Level);
+            string randomString = GlobalVariables.GenerateRandomString(length);
+            langobj.Addlanguage(driver, randomString, Level);
         }
 
 
@@ -205,7 +208,7 @@ namespace MarsSpecFlowProject.StepDefinitions
         [Then(@"the addition of language with more than (.*) characters should fail")]
         public void ThenTheAdditionOfLanguageWithMoreThanCharactersShouldFail(int p0)
         {
-            AssertionHelpers.StringLengthAssertion(driver);
+            assertobj.StringLengthAssertion(driver);
         }
 
         [AfterScenario]

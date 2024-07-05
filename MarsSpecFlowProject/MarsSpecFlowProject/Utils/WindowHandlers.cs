@@ -2,7 +2,7 @@
 
 namespace MarsSpecFlowProject.Utils
 {
-    class Window_Sessions
+    class WindowHandlers
     {
 
         public static void NewTab(IWebDriver driver)
@@ -20,6 +20,11 @@ namespace MarsSpecFlowProject.Utils
             driver.SwitchTo().Window(tabs[SID]);
 
            
+        }
+        public static void ScrollToView(IWebDriver driver,IWebElement value)
+        {
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", value);
         }
     }
 }

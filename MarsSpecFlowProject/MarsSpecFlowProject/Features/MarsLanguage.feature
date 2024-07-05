@@ -1,7 +1,7 @@
 ﻿
 Feature: This test suite contains test scenarios for language feature.
 Background: 
-Given I log into the portal with UserName '' and Password ''
+Given I log into the portal with UserName 'reshma.eli.philip@outlook.com' and Password 'Tomato4132@'
 
 @language
 Scenario: TC_001. Create a new language record with valid characters
@@ -11,8 +11,8 @@ Scenario: TC_001. Create a new language record with valid characters
 	
 	Scenario: TC_002,TC_003,TC_004,TC_005,TC_006. Create a new language record with invalid characters 
 	Given User has no language in their profile
-	When I create a new language record '@@' 'Basic'
-	Then the record should not be saved '@@'
+	When I create a new language record '' 'Basic'
+	Then the record should not be saved ''
 
 	
 
@@ -23,7 +23,7 @@ Scenario: TC_001. Create a new language record with valid characters
       | English  | Basic  |
 
 	When the user wants to update the language or level from "French","Basic" to "Mal","Basic"
-    Then the result of update from  "French","Basic" to "Mal","Basic" is possible
+    Then the update from  "French","Basic" to "Mal","Basic" is possible
 
   
 	Scenario Outline: TC_008. Delete a language 

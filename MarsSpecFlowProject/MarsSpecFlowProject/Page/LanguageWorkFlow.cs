@@ -29,25 +29,40 @@ namespace SpecFlowMVPMARS.Page
     class LanguageWorkFlow
     {
 
+        private readonly By LanguageFieldLocator = By.XPath("//div[@class='five wide field']/input[@placeholder='Add Language']");
+        IWebElement LanguageField;
+        private readonly By AddNewLocator = By.XPath("//th[@class='right aligned']/div[contains(text(),'Add New')]");
+        IWebElement AddNew;
+        private readonly By LanguagelevelLocator = By.XPath("//div[@class='five wide field']/select[@name='level']");
+        IWebElement Languagelevel;
+        private readonly By AddButtonLocator = By.XPath("//div[@class='six wide field']/input[@value='Add']");
+        IWebElement Addutton;
+        //private readonly By Table1Locator = By.XPath("//div[@data-tab='first']//td[1]");
+        IWebElement Table1;
+        //private readonly By TableElementsLocator = By.XPath("//div[@data-tab='first']//td[1]");
+        IList<IWebElement> TableElements;
+        private readonly By updateButtonLocator = By.XPath("//div[@class='fields']/span/input[@value='Update']");
+        IWebElement updateButton;
 
-        public static void Addlanguage(IWebDriver driver, String Language, String Level)
+
+        public void Addlanguage(IWebDriver driver, String Language, String Level)
         {
 
             try //check if the 'Add Button is present'
             {
                 //Click on Add New Button
-                IWebElement AddNew = driver.FindElement(By.XPath("//th[@class='right aligned']/div[contains(text(),'Add New')]"));
+                AddNew = driver.FindElement(AddNewLocator);
                 AddNew.Click();
                 Thread.Sleep(1000);
 
                 //Adding required fields
-                IWebElement dLang = driver.FindElement(By.XPath("//div[@class='five wide field']/input[@placeholder='Add Language']"));
-                IWebElement Langagelevel = driver.FindElement(By.XPath("//div[@class='five wide field']/select[@name='level']"));
-                dLang.SendKeys(Language);
-                Langagelevel.Click();
-                IWebElement Levelchoice = driver.FindElement(By.XPath($"//div[@class='five wide field']/select[@name='level']/option[@value='{Level}']"));
+                LanguageField = driver.FindElement(LanguageFieldLocator);
+                Languagelevel = driver.FindElement(LanguagelevelLocator);
+                LanguageField.SendKeys(Language);
+                Languagelevel.Click();
+                IWebElement Levelchoice = GlobalVariables.LanguageLevelValue(driver, Level);
                 Levelchoice.Click();
-                IWebElement AddButton = driver.FindElement(By.XPath("//div[@class='six wide field']/input[@value='Add']"));
+                IWebElement AddButton = driver.FindElement(AddButtonLocator);
                 AddButton.Click();
 
 
@@ -55,9 +70,11 @@ namespace SpecFlowMVPMARS.Page
             }
             catch //When Add Button not Present 
             {
-                IList<IWebElement> languageElements = driver.FindElements(By.XPath("//div[@data-tab='first']//table/tbody"));
+
+                
+                TableElements = GlobalVariables.TableElementsChoice(driver, "first");
                 Console.WriteLine($"Add botton not found while adding language - {Language} is not done\n");
-                Console.WriteLine("The number of language elements already present is  " + languageElements.Count + "You can do up to a maximum of four selections\n");
+                Console.WriteLine("The number of language elements already present is  " + TableElements.Count + "You can do up to a maximum of four selections\n");
 
 
             }
@@ -67,8 +84,9 @@ namespace SpecFlowMVPMARS.Page
         {
             try
             {
-                IWebElement Table1 = driver.FindElement(By.XPath("//div[@data-tab='first']//td[1]"));
-                IList<IWebElement> TableElements = driver.FindElements(By.XPath("//div[@data-tab='first']//td[1]"));
+                 Table1 = GlobalVariables.TableChoice(driver, "first");
+                  TableElements = GlobalVariables.TableElementsChoice(driver, "first");
+
                 int count = TableElements.Count();
 
                 if (count > 0)
@@ -76,8 +94,7 @@ namespace SpecFlowMVPMARS.Page
                     for (int i = 0; i < count; i++)
                     {
                         IWebElement deleteButton = driver.FindElement(By.XPath("//div[@data-tab='first']//td/parent::tr//span[@class='button'][2]"));
-                        IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-                        js.ExecuteScript("arguments[0].scrollIntoView(true);", Table1);
+                        WindowHandlers.ScrollToView(driver, Table1);
                         Thread.Sleep(1000);
 
                         deleteButton.Click();
@@ -106,15 +123,12 @@ namespace SpecFlowMVPMARS.Page
 
        
 
-        public static void UpdateLanguage(IWebDriver driver, String Lantobeupdated, String EditedLangValue, String EditedLevelValue)
+        public  void UpdateLanguage(IWebDriver driver, String Lantobeupdated, String EditedLangValue, String EditedLevelValue)
         {
 
-            try {
+            try {//try when the language to be updated is present
                 IWebElement RowtobeUpdated = driver.FindElement(By.XPath($"//td[contains(text(),'{Lantobeupdated}')]/parent::tr//span[@class='button'][1]"));
-
-
-                IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-                js.ExecuteScript("arguments[0].scrollIntoView(true);", RowtobeUpdated);
+                WindowHandlers.ScrollToView(driver, RowtobeUpdated);
                 Thread.Sleep(3000);
 
 
@@ -124,19 +138,20 @@ namespace SpecFlowMVPMARS.Page
                 EditLang.Clear();
                 EditLang.SendKeys(EditedLangValue);
 
-                IWebElement Langagelevel = driver.FindElement(By.XPath("//div[@class='five wide field'][2]/select[@name='level']"));
-                Langagelevel.Click();
+                Languagelevel = driver.FindElement(LanguagelevelLocator);
+                Languagelevel.Click();
 
-                IWebElement EditLevel = driver.FindElement(By.XPath($"//div[@class='five wide field'][2]/select[@name='level']/option[@value='{EditedLevelValue}']"));
+                
+                IWebElement EditLevel = GlobalVariables.LanguageLevelValue(driver, EditedLevelValue);
                 EditLevel.Click();
 
-                IWebElement updateButton = driver.FindElement(By.XPath("//div[@class='fields']/span/input[@value='Update']"));
+                 updateButton = driver.FindElement(updateButtonLocator);
                 updateButton.Click();
-                //waitobj.WaitToBeClickable(driver, "ns-box-inner", 10, Lantobeupdated,EditedLangValue);
+               
 
 
             }
-            catch
+            catch // When the language to be updtaed is not present
             {
                 Console.WriteLine($"Language -  {Lantobeupdated} to be updated is not present in the table");
 
@@ -150,19 +165,18 @@ namespace SpecFlowMVPMARS.Page
         public void deletelanguage(IWebDriver driver, String ElementtobeDelete)
         {
 
-            try
+            try//try when the language to be updated is present
             {
                 //Finding Deletebutton for requested element
                 IWebElement deleteButton = driver.FindElement(By.XPath($"//td[contains(text(),'{ElementtobeDelete}')]/parent::tr//span[@class='button'][2]"));
-                IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-                js.ExecuteScript("arguments[0].scrollIntoView(true);", deleteButton);
-                Thread.Sleep(5000);
+                WindowHandlers.ScrollToView(driver, deleteButton);
+                Thread.Sleep(3000);
                 deleteButton.Click();
-                //waitobj.WaitToBeClickable(driver, "ns-box-inner", 10, ElementtobeDelete);
+                
 
 
             }
-            catch
+            catch // when the language to be updated is not present
             {
 
                 Console.WriteLine($"Language to be be deleted '{ElementtobeDelete}' was not found in the table");
@@ -177,7 +191,7 @@ namespace SpecFlowMVPMARS.Page
 
             
             SID = SID - 1;
-            Window_Sessions.ActiveSession(driver, SID);
+            WindowHandlers.ActiveSession(driver, SID);
            
 
         }
@@ -189,14 +203,7 @@ namespace SpecFlowMVPMARS.Page
         }
 
 
-        public static string GenerateRandomString(int length)
-        {          Random random = new Random();
-
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-
-        }
+        
         
 
     }

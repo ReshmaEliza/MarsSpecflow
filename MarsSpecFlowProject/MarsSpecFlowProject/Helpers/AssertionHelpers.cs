@@ -12,24 +12,23 @@ using static MarsSpecFlowProject.StepDefinitions.ThisTestSuiteContainsTestScenar
 using System.Diagnostics;
 using TechTalk.SpecFlow;
 using System.Runtime.Intrinsics.X86;
+using MarsSpecFlowProject.Utils;
 
 namespace MarsSpecFlowProject.Helpers
 {
     class AssertionHelpers
     {
+        string pattern = @"^(?:$|(?=.*[a-zA-Z])[a-zA-Z\s-]+)$";
+         IList<IWebElement> TableElements;
+       static List<string> table_languages = new List<string>();
 
-        public static void AddDeleteLanguageAssert(IWebDriver driver, string Language)
+        public void AddDeleteLanguageAssert(IWebDriver driver, string Language)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            IWebElement notificationElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("ns-box-inner")));
-            String notification = notificationElement.Text;
-            IWebElement table1 = driver.FindElement(By.XPath("//div[@data-tab='first']"));
-            string pattern = @"^(?:$|(?=.*[a-zA-Z])[a-zA-Z\s-]+)$";
+            
+            
+            String notification = WaitUtils.Notification(driver);
             driver.Navigate().Refresh();
-            IList<IWebElement> TableElements = driver.FindElements(By.XPath("//div[@data-tab='first']//td[1]"));
-
-
+            TableElements = GlobalVariables.TableElementsChoice(driver,"first");
             if (TableElements.Count < 5) //Checks if the number of language elements is less than 5
             {
                 if (Regex.IsMatch(Language, pattern))//Checks the existance of invalid characters
@@ -69,20 +68,19 @@ namespace MarsSpecFlowProject.Helpers
         }
 
 
-        public static void UpdateAssertions(IWebDriver driver, string Language, string newlanguage)
+        public  void UpdateAssertions(IWebDriver driver, string Language, string newlanguage)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            IWebElement notificationElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("ns-box-inner")));
-            String notification = notificationElement.Text;
-            IWebElement table1 = driver.FindElement(By.XPath("//div[@data-tab='first']"));
-            string pattern = @"^(?:$|(?=.*[a-zA-Z])[a-zA-Z\s-]+)$";
-             if (Regex.IsMatch(newlanguage, pattern))
+            String notification = WaitUtils.Notification(driver);
+            IWebElement table1 = GlobalVariables.TableChoice(driver, "first");
+
+            if (Regex.IsMatch(newlanguage, pattern))
             {
                 if (notification.Contains("updated"))
                 {
                     IList<IWebElement> TableElements = driver.FindElements(By.XPath("//div[@data-tab='first']//td[1]"));
-                    js.ExecuteScript("arguments[0].scrollIntoView(true);", table1);
+            
+                    WindowHandlers.ScrollToView(driver, table1);
                     AssertionHelpers.NotificationUpdate(driver, notification, TableElements, Language, newlanguage);
                 }
                 else if (notification.Contains("already added"))
@@ -118,14 +116,12 @@ namespace MarsSpecFlowProject.Helpers
         }
 
 
-        public static void StringLengthAssertion(IWebDriver driver)
+        public  void StringLengthAssertion(IWebDriver driver)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            IWebElement notificationElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("ns-box-inner")));
-            String notification = notificationElement.Text;
-            IList<IWebElement> TableElements = driver.FindElements(By.XPath("//div[@data-tab='first']//td[1]"));
+            
+            String notification = WaitUtils.Notification(driver);
+            TableElements = GlobalVariables.TableElementsChoice(driver, "first");
             int count = TableElements.Count();
-            List<string> table_languages = new List<string>();
             Console.WriteLine($"Notification from Sysem:{notification}");
 
             foreach (IWebElement element in TableElements)
@@ -147,12 +143,11 @@ namespace MarsSpecFlowProject.Helpers
             }
         }
 
-        public static void NotificationAdded(IWebDriver driver, string notification, IList<IWebElement> TableElements, String Language)
+        public  static void NotificationAdded(IWebDriver driver, string notification, IList<IWebElement> TableElements, String Language)
         {
             Thread.Sleep(1000);
             int Expected_Count = TableElements.Count();
-            List<string> table_languages = new List<string>();
-            
+                       
             
                 foreach (IWebElement tableElement in TableElements)
                 {
@@ -161,11 +156,12 @@ namespace MarsSpecFlowProject.Helpers
 
 
                 int ActualCount = table_languages.Distinct().Count();
-
+                
                 if (Expected_Count == ActualCount)
                 {
-                String AddedLanguge = driver.FindElement(By.XPath($"//td[contains(text(),'{Language}')]")).Text;
-                if (AddedLanguge.Equals(Language))
+                
+                 String AddedLanguage = GlobalVariables.Value(driver,"first",Language).Text;
+                if (AddedLanguage.Equals(Language))
                 {
                     Console.WriteLine($"TEST PASSED- Notification - {notification}");
                 }
@@ -182,16 +178,16 @@ namespace MarsSpecFlowProject.Helpers
 
         public static void NotificationDeleted(string notification, IList<IWebElement> TableElements, String Language)
         {
-            List<string> languages = new List<string>();
+            
 
             // Iterate through each element and add its text to the list
             foreach (IWebElement element in TableElements)
             {
-                languages.Add(element.Text);
+                table_languages.Add(element.Text);
 
             }
             Console.WriteLine("Languages Present Currently:");
-            foreach (string language in languages)
+            foreach (string language in table_languages)
             {
                 Console.WriteLine(language);
                 Assert.That(!language.Equals(Language), "Deletion Failed");
@@ -203,19 +199,17 @@ namespace MarsSpecFlowProject.Helpers
 
         public static void NotificationUpdate(IWebDriver driver, string notification, IList<IWebElement> TableElements, String Language, String newlanguage)
         {
-            String UpdatedElement = driver.FindElement(By.XPath($"//td[contains(text(),'{newlanguage}')]")).Text;
+            
+            String UpdatedElement = GlobalVariables.Value(driver,"first", newlanguage).Text;
             int Expected_Count = TableElements.Count();
-            List<string> table_languages = new List<string>();
-            
-            
-                foreach (IWebElement tableElement in TableElements)
+               foreach (IWebElement tableElement in TableElements)
                 {
                     table_languages.Add(tableElement.Text.ToLower());
                 }
 
                 int ActualCount = table_languages.Distinct().Count();
 
-                if (Expected_Count == ActualCount)
+                if (Expected_Count == ActualCount)//Checks for duplicate values
                 {
                     if (UpdatedElement.Equals(newlanguage))
                     {

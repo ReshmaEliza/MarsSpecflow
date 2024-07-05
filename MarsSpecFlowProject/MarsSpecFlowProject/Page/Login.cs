@@ -11,15 +11,24 @@ namespace MarsSpecFlowProject.Page
 {
      public class Login
     {
-        public  void loginAction(IWebDriver driver,String UserName, String Password)
+
+        private readonly By SignInLocator = By.XPath("//div/a[@class='item']");
+        IWebElement SignIn;
+        private readonly By EmailLocator = By.XPath("//input[@name='email']");
+        IWebElement Email;
+      
+        private readonly By PasswordLocator = By.XPath("//input[@name='password']");
+        IWebElement PasswordElement;
+        public void loginAction(IWebDriver driver,String UserName, String Password)
 
 
         {                       
-            IWebElement SignIn = driver.FindElement(By.XPath("//div/a[@class='item']"));
+
+            SignIn = driver.FindElement(SignInLocator);
             SignIn.Click();
-            IWebElement Email = driver.FindElement(By.XPath(" //input[@name='email']"));
+            Email = driver.FindElement(EmailLocator);
             Email.SendKeys(UserName);
-            IWebElement PasswordElement = driver.FindElement(By.XPath(" //input[@name='password']"));
+            PasswordElement = driver.FindElement(PasswordLocator);
             PasswordElement.SendKeys(Password);
 
             IWebElement loginButton = driver.FindElement(By.XPath("//button[contains(text(),'Login')]"));
