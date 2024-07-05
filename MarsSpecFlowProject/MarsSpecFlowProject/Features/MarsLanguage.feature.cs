@@ -78,8 +78,7 @@ namespace MarsSpecFlowProject.Features
 #line 3
 #line hidden
 #line 4
-testRunner.Given("I log into the portal with UserName \'reshma.eli.philip@outlook.com\' and Password " +
-                    "\'Tomato4132@\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+testRunner.Given("I log into the portal with UserName \'\' and Password \'\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         

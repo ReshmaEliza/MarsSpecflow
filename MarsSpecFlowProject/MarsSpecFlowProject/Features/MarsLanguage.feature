@@ -1,7 +1,7 @@
 ﻿
 Feature: This test suite contains test scenarios for language feature.
 Background: 
-Given I log into the portal with UserName 'reshma.eli.philip@outlook.com' and Password 'Tomato4132@'
+Given I log into the portal with UserName '' and Password ''
 
 @language
 Scenario: TC_001. Create a new language record with valid characters
