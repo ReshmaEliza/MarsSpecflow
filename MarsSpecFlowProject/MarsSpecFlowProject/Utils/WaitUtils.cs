@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SeleniumExtras.WaitHelpers;
 
 namespace MarsSpecFlowProject.Utils
 {
@@ -24,8 +25,31 @@ namespace MarsSpecFlowProject.Utils
 
         }
 
+        public static IWebElement WaitToBeClickable(IWebDriver driver, string locatorValue, int seconds)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, seconds));
 
-       
+            
+                By addLocator = By.XPath(locatorValue);
+
+                
+                IWebElement AddNew = wait.Until(ExpectedConditions.ElementToBeClickable(addLocator));
+                return AddNew;
+            
+            
+
+
+
+        }
+
+        public static IWebElement WaitElementIsVisible(IWebDriver driver, string locatorValue, int seconds)
+        {
+            WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, seconds));
+            By addLocator = By.XPath(locatorValue);
+            IWebElement value = wait.Until(ExpectedConditions.ElementToBeClickable(addLocator));
+            return value;
+
+        }
 
     }
 }

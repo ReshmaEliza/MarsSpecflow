@@ -22,7 +22,7 @@ namespace MarsSpecFlowProject.StepDefinitions
         Login loginobj = new Login();
 
     LanguageWorkFlow  langobj = new LanguageWorkFlow();
-        AssertionHelpers assertobj = new AssertionHelpers();  
+        LanguageAssertionHelpers assertobj = new LanguageAssertionHelpers();  
 
         [BeforeScenario]
         public void Setup()

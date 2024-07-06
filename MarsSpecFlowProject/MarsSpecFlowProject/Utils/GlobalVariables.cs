@@ -14,20 +14,18 @@ namespace MarsSpecFlowProject.Utils
 
         {
             IWebElement AddedLanguge = driver.FindElement(By.XPath($"//div[@data-tab='{Choice}']//td[contains(text(),'{Value}')]"));
+                                                      
             return AddedLanguge;
         }
 
-        public static IWebElement LanguageLevelValue(IWebDriver driver, String Level)
+        public static IWebElement LevelValue(IWebDriver driver, String Level)
 
         {
             IWebElement Levelchoice = driver.FindElement(By.XPath($"//div[@class='five wide field']/select[@name='level']/option[@value='{Level}']"));
+                                                                   
             return Levelchoice;
         }
 
-        /*  private readonly By Table1Locator = By.XPath("//div[@data-tab='first']//td[1]");
-         IWebElement Table1;
-         private readonly By TableElementsLocator = By.XPath("//div[@data-tab='first']//td[1]");
-         IList<IWebElement> TableElements; */
 
         public static IWebElement TableChoice(IWebDriver driver, String Choice)
 

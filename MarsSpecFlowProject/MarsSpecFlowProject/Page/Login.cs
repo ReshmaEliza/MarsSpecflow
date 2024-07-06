@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.DevTools.V125.Network;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,11 @@ namespace MarsSpecFlowProject.Page
       
         private readonly By PasswordLocator = By.XPath("//input[@name='password']");
         IWebElement PasswordElement;
-        public void loginAction(IWebDriver driver,String UserName, String Password)
+        public  void loginAction(IWebDriver driver,String UserName, String Password)
 
 
-        {                       
+        {
+           
 
             SignIn = driver.FindElement(SignInLocator);
             SignIn.Click();
@@ -41,7 +43,21 @@ namespace MarsSpecFlowProject.Page
 
             
         }
-       
+
+        public void GoToTab(IWebDriver driver, String Tab)
+        {
+
+
+
+            driver.Navigate().Refresh();
+            driver.Navigate().Refresh();
+            //a[text() = 'Languages']
+            IWebElement Skill_Tab = driver.FindElement(By.XPath($"//a[text() = '{Tab}']"));
+            Skill_Tab.Click();
+
+
+
+        }
 
 
     }

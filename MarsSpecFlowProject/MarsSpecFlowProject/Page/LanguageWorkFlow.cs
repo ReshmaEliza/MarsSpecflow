@@ -60,7 +60,7 @@ namespace SpecFlowMVPMARS.Page
                 Languagelevel = driver.FindElement(LanguagelevelLocator);
                 LanguageField.SendKeys(Language);
                 Languagelevel.Click();
-                IWebElement Levelchoice = GlobalVariables.LanguageLevelValue(driver, Level);
+                IWebElement Levelchoice = GlobalVariables.LevelValue(driver, Level);
                 Levelchoice.Click();
                 IWebElement AddButton = driver.FindElement(AddButtonLocator);
                 AddButton.Click();
@@ -95,7 +95,7 @@ namespace SpecFlowMVPMARS.Page
                     {
                         IWebElement deleteButton = driver.FindElement(By.XPath("//div[@data-tab='first']//td/parent::tr//span[@class='button'][2]"));
                         WindowHandlers.ScrollToView(driver, Table1);
-                        Thread.Sleep(1000);
+                        Thread.Sleep(3000);
 
                         deleteButton.Click();
                     }
@@ -103,12 +103,7 @@ namespace SpecFlowMVPMARS.Page
 
 
                 }
-                else
-                {
-                    Console.WriteLine("The user doesnt have any existing languages to be deleted");
-
-
-                }
+                
             }
             catch
             {
@@ -142,7 +137,7 @@ namespace SpecFlowMVPMARS.Page
                 Languagelevel.Click();
 
                 
-                IWebElement EditLevel = GlobalVariables.LanguageLevelValue(driver, EditedLevelValue);
+                IWebElement EditLevel = GlobalVariables.LevelValue(driver, EditedLevelValue);
                 EditLevel.Click();
 
                  updateButton = driver.FindElement(updateButtonLocator);

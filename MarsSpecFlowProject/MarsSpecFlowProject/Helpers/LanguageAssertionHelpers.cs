@@ -16,7 +16,7 @@ using MarsSpecFlowProject.Utils;
 
 namespace MarsSpecFlowProject.Helpers
 {
-    class AssertionHelpers
+    class LanguageAssertionHelpers
     {
         string pattern = @"^(?:$|(?=.*[a-zA-Z])[a-zA-Z\s-]+)$";
          IList<IWebElement> TableElements;
@@ -35,12 +35,12 @@ namespace MarsSpecFlowProject.Helpers
                 {
                     if (notification.Contains("has been added to your languages"))
                     {
-                        AssertionHelpers.NotificationAdded(driver, notification, TableElements, Language);
+                        LanguageAssertionHelpers.NotificationAdded(driver, notification, TableElements, Language);
                     }
                     else if (notification.Contains("deleted"))
                     {
                         Console.WriteLine($"Notification from system: '{notification}'");
-                        AssertionHelpers.NotificationDeleted(notification, TableElements, Language);
+                        LanguageAssertionHelpers.NotificationDeleted(notification, TableElements, Language);
                     }
                     else if (notification.Contains("already added"))
                         Console.Write($"Addition/Updation of language - {Language} has not been done due to '{notification}'\n");
@@ -70,7 +70,7 @@ namespace MarsSpecFlowProject.Helpers
 
         public  void UpdateAssertions(IWebDriver driver, string Language, string newlanguage)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            
             String notification = WaitUtils.Notification(driver);
             IWebElement table1 = GlobalVariables.TableChoice(driver, "first");
 
@@ -81,7 +81,7 @@ namespace MarsSpecFlowProject.Helpers
                     IList<IWebElement> TableElements = driver.FindElements(By.XPath("//div[@data-tab='first']//td[1]"));
             
                     WindowHandlers.ScrollToView(driver, table1);
-                    AssertionHelpers.NotificationUpdate(driver, notification, TableElements, Language, newlanguage);
+                    LanguageAssertionHelpers.NotificationUpdate(driver, notification, TableElements, Language, newlanguage);
                 }
                 else if (notification.Contains("already added"))
                     Console.Write($"Updation of language '{Language}' has not been done. Notification from system-{notification}\n");
