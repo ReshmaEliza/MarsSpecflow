@@ -9,13 +9,13 @@ using SeleniumExtras.WaitHelpers;
 
 namespace MarsSpecFlowProject.Utils
 {
-    class WaitUtils
+    class WaitUtils:CommonDriver
     {
       
         private static readonly By NotificationElementLocator = By.ClassName("ns-box-inner");
         static IWebElement NotificationElement;
 
-        public  static string Notification(IWebDriver driver)
+        public  static string Notification()
             {
 
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
@@ -25,12 +25,12 @@ namespace MarsSpecFlowProject.Utils
 
         }
 
-        public static IWebElement WaitToBeClickable(IWebDriver driver, string locatorValue, int seconds)
+        public static IWebElement WaitToBeClickable(string Choice, int seconds)
         {
             WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, seconds));
 
             
-                By addLocator = By.XPath(locatorValue);
+                By addLocator = By.XPath($"//div[@data-tab='{Choice}']//th[@class='right aligned']/div[contains(text(),'Add New')]");
 
                 
                 IWebElement AddNew = wait.Until(ExpectedConditions.ElementToBeClickable(addLocator));
@@ -42,11 +42,12 @@ namespace MarsSpecFlowProject.Utils
 
         }
 
-        public static IWebElement WaitElementIsVisible(IWebDriver driver, string locatorValue, int seconds)
+        public static IWebElement WaitElementIsVisible(string tab, int seconds)
         {
             WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, seconds));
-            By addLocator = By.XPath(locatorValue);
-            IWebElement value = wait.Until(ExpectedConditions.ElementToBeClickable(addLocator));
+            By Locator = By.XPath($"//h3[contains(text(),'{tab}')]");
+            
+            IWebElement value = wait.Until(ExpectedConditions.ElementToBeClickable(Locator));
             return value;
 
         }

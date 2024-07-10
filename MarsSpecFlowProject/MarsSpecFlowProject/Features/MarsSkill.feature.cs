@@ -81,6 +81,9 @@ namespace MarsSpecFlowProject.Features
 testRunner.Given("I log into the portal with UserName \'\' and Password \'\' and navigate to \'Skills\' T" +
                     "ab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
+#line 4
+testRunner.And("User has no skill in their profile", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
@@ -92,7 +95,7 @@ testRunner.Given("I log into the portal with UserName \'\' and Password \'\' and
                     "Skill"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_001. Create a new Skill record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 8
+#line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -115,14 +118,14 @@ this.ScenarioInitialize(scenarioInfo);
 #line 2
 this.FeatureBackground();
 #line hidden
-#line 9
- testRunner.Given("User has no skill in their profile", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
 #line 10
  testRunner.When("I create a new skill record \'Test\' \'Intermediate\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 11
  testRunner.Then("the skill should be saved as \'Test\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 12
+ testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -137,7 +140,7 @@ this.FeatureBackground();
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_002,Tc_003,TC_004,TC_005,TC_006. Create a new Skill record with invalid charac" +
                     "ters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 13
+#line 14
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -160,14 +163,14 @@ this.FeatureBackground();
 #line 2
 this.FeatureBackground();
 #line hidden
-#line 14
- testRunner.Given("User has no skill in their profile", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
 #line 15
- testRunner.When("I create a new skill record \'@@@\' \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I create a new skill record \'@@\' \'Beginner\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 16
- testRunner.Then("the skill should not be saved \'@@@\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the skill should not be saved \'@@\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 17
+ testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -180,7 +183,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_007. Update a Skill", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 18
+#line 20
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -212,16 +215,19 @@ this.FeatureBackground();
                 table6.AddRow(new string[] {
                             "English",
                             "Intermediate"});
-#line 19
+#line 21
       testRunner.Given("the user profile is set up with the Skills:", ((string)(null)), table6, "Given ");
 #line hidden
-#line 24
+#line 26
  testRunner.When("the user wants to update the Skill or level from \"French\",\"Intermediate\" to \"Mal\"" +
                         ",\"Intermediate\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 25
+#line 27
     testRunner.Then("the update from skill  \"French\",\"Intermediate\" to skill \"Mal\",\"Intermediate\" is p" +
                         "ossible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 28
+ testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -234,7 +240,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_008. Delete a Skill", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 28
+#line 32
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -272,14 +278,17 @@ this.FeatureBackground();
                 table7.AddRow(new string[] {
                             "Hindi",
                             "Intermediate"});
-#line 29
+#line 33
       testRunner.Given("the user profile is set up with the Skills:", ((string)(null)), table7, "Given ");
 #line hidden
-#line 37
+#line 41
  testRunner.When("the user wants to delete the Skill  \"French\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 38
+#line 42
     testRunner.Then("the Skill \"French\" should be deleted.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 43
+ testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -292,7 +301,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_009,TC_010 Duplicate Entry Check for Addition of Skill", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 40
+#line 45
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -324,14 +333,17 @@ this.FeatureBackground();
                 table8.AddRow(new string[] {
                             "Graphic Designer",
                             "Beginner"});
-#line 41
+#line 46
   testRunner.Given("the user profile is set up with the Skills:", ((string)(null)), table8, "Given ");
 #line hidden
-#line 46
+#line 51
  testRunner.When("I try to create another record with same skills \'test Engineer\' \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 47
+#line 52
  testRunner.Then("Adding of second record for skill \'test Engineer\' \'Expert\' fails", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 53
+ testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -344,7 +356,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_011, Duplicate Entry Check while updating a Skill", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 51
+#line 56
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -379,14 +391,14 @@ this.FeatureBackground();
                 table9.AddRow(new string[] {
                             "Test Engineer",
                             "Beginner"});
-#line 52
+#line 57
   testRunner.Given("the user profile is set up with the Skills:", ((string)(null)), table9, "Given ");
 #line hidden
-#line 57
+#line 62
    testRunner.When("the user wants to update the Skill or level from \"Graphic Designer\",\"Beginner\" to" +
                         " \"Test Engineer\",\"Beginner\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 58
+#line 63
    testRunner.Then("the system should block the skill updation from \'Graphic Designer\' to \'Test Engin" +
                         "eer\'.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -401,49 +413,6 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_012 Validate the addition of Skill feature with 1000 characters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 60
- this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                this.ScenarioStart();
-#line 2
-this.FeatureBackground();
-#line hidden
-#line 61
- testRunner.Given("User has no skill in their profile", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 62
- testRunner.When("I create a new Skill with 1000 random characters and level \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 63
- testRunner.Then("the addition of Skill with more than 50 characters should fail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            }
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("TC_013  Verify the stability of system under high load")]
-        public virtual void TC_013VerifyTheStabilityOfSystemUnderHighLoad()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_013  Verify the stability of system under high load", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 65
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -471,10 +440,59 @@ this.FeatureBackground();
  testRunner.Given("User has no skill in their profile", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 67
- testRunner.When("I create a  50 new random skill with level \'Expert\' set for the user.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I create a new Skill with 1000 random characters and level \'Expert\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 68
- testRunner.Then("verify if all the 50 elements is added to the system", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the addition of Skill with more than 50 characters should fail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 69
+ testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("TC_013  Verify the stability of system under high load")]
+        public virtual void TC_013VerifyTheStabilityOfSystemUnderHighLoad()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_013  Verify the stability of system under high load", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 71
+ this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 2
+this.FeatureBackground();
+#line hidden
+#line 72
+ testRunner.Given("User has no skill in their profile", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 73
+ testRunner.When("I create a  10 new random skill with level \'Expert\' set for the user.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 74
+ testRunner.Then("verify if all the 10 elements is added to the system", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 75
+ testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

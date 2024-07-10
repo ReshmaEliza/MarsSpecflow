@@ -2,62 +2,51 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.DevTools.V125.Network;
+using SeleniumExtras.PageObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace MarsSpecFlowProject.Page
 {
-     public class Login
+    public class Login:BasePage
     {
+        //private IWebDriver driver;
+        [FindsBy(How = How.XPath,Using = "//div/a[@class='item']")]
+        private IWebElement SignIn;
 
-        private readonly By SignInLocator = By.XPath("//div/a[@class='item']");
-        IWebElement SignIn;
-        private readonly By EmailLocator = By.XPath("//input[@name='email']");
-        IWebElement Email;
-      
-        private readonly By PasswordLocator = By.XPath("//input[@name='password']");
-        IWebElement PasswordElement;
-        public  void loginAction(IWebDriver driver,String UserName, String Password)
+        [FindsBy(How = How.XPath, Using = "//input[@name='email']")]
+        private IWebElement Email;
+
+        [FindsBy(How = How.XPath, Using = "//input[@name='password']")]
+        private IWebElement PasswordElement;
+
+        [FindsBy(How = How.XPath, Using = "//button[contains(text(),'Login')]")]
+        IWebElement loginButton;
+            public Login() : base() { }
+
+
+        public void loginPage(String UserName, String Password)
 
 
         {
-           
-
-            SignIn = driver.FindElement(SignInLocator);
             SignIn.Click();
-            Email = driver.FindElement(EmailLocator);
             Email.SendKeys(UserName);
-            PasswordElement = driver.FindElement(PasswordLocator);
             PasswordElement.SendKeys(Password);
-
-            IWebElement loginButton = driver.FindElement(By.XPath("//button[contains(text(),'Login')]"));
-                
-                
-                loginButton.Click();
-                Thread.Sleep(3000);
-                String loginverification_strUrl = driver.Url;
-                Assert.That(loginverification_strUrl == "http://localhost:5000/Account/Profile", "Login failed");
-
+            loginButton.Click();
+            Thread.Sleep(3000);
+              String loginverification_strUrl = driver.Url;
+            Assert.That(loginverification_strUrl == "http://localhost:5000/Account/Profile", "Login failed");
+        }
             
-        }
+        
+        
 
-        public void GoToTab(IWebDriver driver, String Tab)
-        {
-
-
-
-            driver.Navigate().Refresh();
-            driver.Navigate().Refresh();
-            //a[text() = 'Languages']
-            IWebElement Skill_Tab = driver.FindElement(By.XPath($"//a[text() = '{Tab}']"));
-            Skill_Tab.Click();
-
-
-
-        }
 
 
     }

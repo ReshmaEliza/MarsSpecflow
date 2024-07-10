@@ -10,7 +10,7 @@ using OpenQA.Selenium;
 using System.Security.Policy;
 using NUnit.Framework.Internal.Execution;
 using MarsSpecFlowProject.Helpers;
-using SpecFlowMVPMARS.Page;
+using MarsSpecFlowProject.Page;
 
 
 namespace MarsSpecFlowProject.StepDefinitions
@@ -19,74 +19,81 @@ namespace MarsSpecFlowProject.StepDefinitions
     public class ThisTestSuiteContainsTestScenariosForLanguageTab_StepDefinitions : CommonDriver
     {
 
-        Login loginobj = new Login();
+  
 
-    LanguageWorkFlow  langobj = new LanguageWorkFlow();
-        LanguageAssertionHelpers assertobj = new LanguageAssertionHelpers();  
+        private Login loginPage;
+        private ProfilePage feature;
+        private string tab;
+        private Assertions Assertions;
 
-        [BeforeScenario]
-        public void Setup()
+        public ThisTestSuiteContainsTestScenariosForLanguageTab_StepDefinitions()
         {
-
-            driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-            driver.Url = "http://localhost:5000/";
-            driver.Manage().Window.Maximize();
-            
-
+            loginPage = new Login();
+            feature = new ProfilePage();
+            Assertions = new Assertions();
         }
+                
 
-
-        
-        
-       
-
-        [Given(@"I log into the portal with UserName '([^']*)' and Password '([^']*)'")]
-        public void GivenILogIntoThePortalWithUserNameAndPassword(string UserName, string Password)
+        [Given(@"I log into the portal with UserName '([^']*)' and Password '([^']*)' and  navigate to '([^']*)' Tab")]
+        public void GivenILogIntoThePortalWithUserNameAndPasswordAndNavigateToTab(string UserName, string Password, String tab)
         {
-            loginobj.loginAction(driver, UserName, Password);
-        }
+            loginPage.loginPage(UserName, Password);
 
+            this.tab = tab;
+            feature.InitChoice(tab);
+        }
 
 
 
         [Given(@"User has no language in their profile")]
         public void GivenUserHasNoLanguageInTheirProfile()
         {
-            langobj.DeleteAllElements(driver);
-            Thread.Sleep(3000);
+            feature.DeleteAllElements();
+            Thread.Sleep(2000);
+
+            
         }
 
         [When(@"I create a new language record '([^']*)' '([^']*)'")]
         public void WhenICreateANewLanguageRecord(string Language, string Level)
         {
-            langobj.Addlanguage(driver, Language, Level);
+            feature.Add(Language, Level);
             Thread.Sleep(1000);
         }
 
         [Then(@"the record should be saved '([^']*)'")]
         public void ThenTheRecordShouldBeSaved(string language)
         {
-            assertobj.AddDeleteLanguageAssert(driver, language);
+            Assertions.InitChoice(tab);
+            Assertions.AddDeleteLanguageAssert(language);
+
 
 
         }
         [Then(@"the record should not be saved '([^']*)'")]
         public void ThenTheRecordShouldNotBeSaved(string Language)
         {
-            assertobj.AddDeleteLanguageAssert(driver, Language);
+            Assertions.InitChoice(tab);
+            Assertions.AddDeleteLanguageAssert(Language);
+        }
+        [Then(@"Reset record")]
+        public void ThenResetRecord()
+        {
+            feature.DeleteAllElements();
+
         }
 
         [Given(@"the user profile is set up with the languages:")]
         public void GivenTheUserProfileIsSetUpWithTheLanguages(Table table)
         {
-            langobj.DeleteAllElements(driver);
+            
             Thread.Sleep(3000);
             var languages = table.CreateSet<Language>();
             foreach (var language in languages)
             {
                 // Code to add the language and level to the user's profile
-                langobj.Addlanguage(driver, language.language, language.Level);
+                
+                feature.Add(language.language, language.Level);
                 Thread.Sleep(3000);
             }
 
@@ -104,8 +111,8 @@ namespace MarsSpecFlowProject.StepDefinitions
         public void WhenTheUserWantsToUpdateTheLanguageOrLevelFromTo(string language, string languagelevel, string newlanguage, string newlanguagelevel)
         {
             Thread.Sleep(3000);
-            langobj.UpdateLanguage(driver, language, newlanguage, newlanguagelevel);
-
+            //langobj.UpdateLanguage(driver, language, newlanguage, newlanguagelevel);
+            feature.Update(language, newlanguage, newlanguagelevel);
         }
 
 
@@ -114,7 +121,9 @@ namespace MarsSpecFlowProject.StepDefinitions
         [Then(@"the update from  ""([^""]*)"",""([^""]*)"" to ""([^""]*)"",""([^""]*)"" is possible")]
         public void ThenTheUpdateFromToIsPossible(string language, string languagelevel, string newlanguage, string newlanguagelevel)
         {
-            assertobj.UpdateAssertions(driver, language, newlanguage);
+            Assertions.InitChoice(tab);
+            //assertobj.UpdateAssertions(language, newlanguage);
+            Assertions.UpdateAssertionsLanguage(language, newlanguage);
         }
 
 
@@ -122,20 +131,22 @@ namespace MarsSpecFlowProject.StepDefinitions
         public void WhenTheUserWantsToDeleteTheLanguage(string language)
         {
             Thread.Sleep(1000);
-            langobj.deletelanguage(driver, language);
+            feature.delete(language);
         }
 
         [Then(@"the language ""([^""]*)"" should be deleted\.")]
         public void ThenTheLanguageShouldBeDeleted_(string language)
         {
-            assertobj.AddDeleteLanguageAssert(driver, language);
+            Assertions.InitChoice(tab);
+            Assertions.AddDeleteLanguageAssert(language);
+
         }
 
         [When(@"I try to create another record with same value '([^']*)' '([^']*)'")]
         public void WhenITryToCreateAnotherRecordWithSameValue(string language, string LanguageLevel)
         {
             Thread.Sleep(5000);
-            langobj.Addlanguage(driver, language, LanguageLevel);
+            feature.Add(language, LanguageLevel);
 
 
         }
@@ -143,37 +154,39 @@ namespace MarsSpecFlowProject.StepDefinitions
         [Then(@"Adding of second record '([^']*)' '([^']*)' fails")]
         public void ThenAddingOfSecondRecordFails(string language, string LanguageLevel)
         {
-            //LanguageWorkFlow.DuplicateEntriesAssertion(driver, language, LanguageLevel);
-            assertobj.AddDeleteLanguageAssert(driver, language);
+            
+            Assertions.InitChoice(tab);
+            Assertions.AddDeleteLanguageAssert(language);
+
 
         }
 
         [Then(@"the system should block the updation from '([^']*)' to '([^']*)'\.")]
         public void ThenTheSystemShouldBlockTheUpdationFromTo_(string Language, string newlanguage)
         {
-            assertobj.UpdateAssertions(driver, Language, newlanguage);
+            Assertions.InitChoice(tab);
+            Assertions.UpdateAssertionsLanguage(Language, newlanguage);
         }
 
         [Given(@"I open a second session in tab (.*)\.")]
         public void GivenIOpenASecondSessionInTab_(int SID)
         {
-            WindowHandlers.NewTab(driver);
+            WindowHandlers.NewTab();
 
-            langobj.Sessions(driver, SID);
-
-            langobj.Url(driver);
+            feature.Sessions(SID);
+            feature.Url();
         }
 
         [Given(@"the user profile is set up with the languages in Session (.*):")]
         public void GivenTheUserProfileIsSetUpWithTheLanguagesInSession(int SID, Table table)
         {
 
-            langobj.Sessions(driver, SID);
+            feature.Sessions(SID);
             var languages = table.CreateSet<Language>();
             foreach (var language in languages)
             {
                 // Code to add the language and level to the user's profile
-                langobj.Addlanguage(driver, language.language, language.Level);
+                feature.Add(language.language, language.Level);
                 Thread.Sleep(3000);
             }
         }
@@ -181,9 +194,9 @@ namespace MarsSpecFlowProject.StepDefinitions
         [When(@"I create a new language record '([^']*)' '([^']*)' in Session (.*)")]
         public void WhenICreateANewLanguageRecordInSession(string language, string languageLevel, int SID)
         {
-            langobj.Sessions(driver, SID);
+            feature.Sessions(SID);
             Thread.Sleep(2000);
-            langobj.Addlanguage(driver, language, languageLevel);
+            feature.Add(language, languageLevel);
         }
 
 
@@ -191,7 +204,8 @@ namespace MarsSpecFlowProject.StepDefinitions
         [Then(@"the entry of '([^']*)','([^']*)' should be blocked\.")]
         public void ThenTheEntryOfShouldBeBlocked_(string Language, string LanguageLevel)
         {
-            assertobj.AddDeleteLanguageAssert(driver, Language);
+            Assertions.InitChoice(tab);
+            Assertions.AddDeleteLanguageAssert(Language);
         }
 
 
@@ -199,7 +213,7 @@ namespace MarsSpecFlowProject.StepDefinitions
         public void WhenICreateANewLanguageWithRandomCharcatersAndLevel(int length, string Level)
         {
             string randomString = GlobalVariables.GenerateRandomString(length);
-            langobj.Addlanguage(driver, randomString, Level);
+            feature.Add(randomString, Level);
         }
 
 
@@ -208,14 +222,13 @@ namespace MarsSpecFlowProject.StepDefinitions
         [Then(@"the addition of language with more than (.*) characters should fail")]
         public void ThenTheAdditionOfLanguageWithMoreThanCharactersShouldFail(int p0)
         {
-            assertobj.StringLengthAssertion(driver);
+
+            Assertions.InitChoice(tab);
+            Assertions.StringLengthAssertion();
+
         }
 
-        [AfterScenario]
-        public void Cleanup()
-        {
-            driver.Quit();
-        }
+       
 
 
 

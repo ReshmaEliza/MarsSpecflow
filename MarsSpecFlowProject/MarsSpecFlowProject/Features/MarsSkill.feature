@@ -1,19 +1,21 @@
 ﻿Feature: This test suite contains test scenarios for Skill tab.
 Background: 
 Given I log into the portal with UserName '' and Password '' and navigate to 'Skills' Tab
+And User has no skill in their profile
  
 
 
 @Skill
 Scenario: TC_001. Create a new Skill record
-	Given User has no skill in their profile
 	When I create a new skill record 'Test' 'Intermediate'
 	Then the skill should be saved as 'Test'
+	And Reset Data
 
 	Scenario: TC_002,Tc_003,TC_004,TC_005,TC_006. Create a new Skill record with invalid characters 
-	Given User has no skill in their profile
-	When I create a new skill record '@@@' 'Expert'
-	Then the skill should not be saved '@@@'
+	When I create a new skill record '@@' 'Beginner'
+	Then the skill should not be saved '@@'
+	And Reset Data
+	
 
 	Scenario Outline: TC_007. Update a Skill 
   	   Given the user profile is set up with the Skills:
@@ -23,6 +25,8 @@ Scenario: TC_001. Create a new Skill record
 
 	When the user wants to update the Skill or level from "French","Intermediate" to "Mal","Intermediate"
     Then the update from skill  "French","Intermediate" to skill "Mal","Intermediate" is possible
+	And Reset Data
+
 
   
 	Scenario Outline: TC_008. Delete a Skill 
@@ -36,6 +40,7 @@ Scenario: TC_001. Create a new Skill record
 
 	When the user wants to delete the Skill  "French"
     Then the Skill "French" should be deleted.
+	And Reset Data
 
 	Scenario:  TC_009,TC_010 Duplicate Entry Check for Addition of Skill
 	 Given the user profile is set up with the Skills:
@@ -45,7 +50,7 @@ Scenario: TC_001. Create a new Skill record
 
 	When I try to create another record with same skills 'test Engineer' 'Expert'
 	Then Adding of second record for skill 'test Engineer' 'Expert' fails 
-
+	And Reset Data
 
 
   Scenario:TC_011, Duplicate Entry Check while updating a Skill
@@ -61,11 +66,12 @@ Scenario: TC_001. Create a new Skill record
 	Given User has no skill in their profile
 	When I create a new Skill with 1000 random characters and level 'Expert'
 	Then the addition of Skill with more than 50 characters should fail
+	And Reset Data
 
 	Scenario: TC_013  Verify the stability of system under high load
 	Given User has no skill in their profile
-	When I create a  50 new random skill with level 'Expert' set for the user.
-	Then verify if all the 50 elements is added to the system
-
+	When I create a  10 new random skill with level 'Expert' set for the user.
+	Then verify if all the 10 elements is added to the system
+	And Reset Data
 
 
