@@ -78,8 +78,8 @@ namespace MarsSpecFlowProject.Features
 #line 3
 #line hidden
 #line 4
-testRunner.Given("I log into the portal with UserName \'\' and Password \'\' and  navigate to \'Language" +
-                    "s\' Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+testRunner.Given("I log into the portal with UserName \'re\' and Password \'\' and  navigate to \'Langua" +
+                    "ges\' Tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 5
 testRunner.And("User has no language in their profile", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -124,9 +124,6 @@ this.FeatureBackground();
 #line 10
  testRunner.Then("the record should be saved \'French\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 11
- testRunner.And("Reset record", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
             }
             this.ScenarioCleanup();
         }
@@ -134,10 +131,15 @@ this.FeatureBackground();
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("TC_002,TC_003,TC_004,TC_005,TC_006. Create a new language record with invalid cha" +
             "racters")]
-        public virtual void TC_002TC_003TC_004TC_005TC_006_CreateANewLanguageRecordWithInvalidCharacters()
+        [NUnit.Framework.TestCaseAttribute("@@@", "Basic", null)]
+        [NUnit.Framework.TestCaseAttribute("", "Fluent", null)]
+        [NUnit.Framework.TestCaseAttribute("test", "", null)]
+        public virtual void TC_002TC_003TC_004TC_005TC_006_CreateANewLanguageRecordWithInvalidCharacters(string language, string level, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("language", language);
+            argumentsOfScenario.Add("Level", level);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_002,TC_003,TC_004,TC_005,TC_006. Create a new language record with invalid cha" +
                     "racters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 13
@@ -164,13 +166,10 @@ this.FeatureBackground();
 this.FeatureBackground();
 #line hidden
 #line 14
- testRunner.When("I create a new language record \'\' \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When(string.Format("I create a new language record \'{0}\' \'{1}\'", language, level), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 15
- testRunner.Then("the record should not be saved \'\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 16
- testRunner.And("Reset record", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then(string.Format("the record should not be saved \'{0}\'", language), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -183,7 +182,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_007. Update a language", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 20
+#line 24
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -215,18 +214,15 @@ this.FeatureBackground();
                 table1.AddRow(new string[] {
                             "English",
                             "Basic"});
-#line 21
+#line 25
       testRunner.Given("the user profile is set up with the languages:", ((string)(null)), table1, "Given ");
 #line hidden
-#line 26
+#line 30
  testRunner.When("the user wants to update the language or level from \"French\",\"Basic\" to \"Mal\",\"Ba" +
                         "sic\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 27
+#line 31
     testRunner.Then("the update from  \"French\",\"Basic\" to \"Mal\",\"Basic\" is possible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 28
- testRunner.And("Reset record", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -239,7 +235,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_008. Delete a language", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 30
+#line 34
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -277,17 +273,14 @@ this.FeatureBackground();
                 table2.AddRow(new string[] {
                             "Hindi",
                             "Fluent"});
-#line 31
+#line 35
       testRunner.Given("the user profile is set up with the languages:", ((string)(null)), table2, "Given ");
 #line hidden
-#line 39
+#line 43
  testRunner.When("the user wants to delete the language  \"French\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 40
+#line 44
     testRunner.Then("the language \"French\" should be deleted.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 41
- testRunner.And("Reset record", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -300,7 +293,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_009,TC_010 Duplicate Entry Check for Addition of language", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 43
+#line 47
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -332,17 +325,14 @@ this.FeatureBackground();
                 table3.AddRow(new string[] {
                             "English",
                             "Fluent"});
-#line 44
+#line 48
   testRunner.Given("the user profile is set up with the languages:", ((string)(null)), table3, "Given ");
 #line hidden
-#line 48
+#line 52
  testRunner.When("I try to create another record with same value \'French\' \'Fluent\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 49
+#line 53
  testRunner.Then("Adding of second record \'French\' \'Fluent\' fails", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 50
- testRunner.And("Reset record", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -355,7 +345,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_011, Duplicate Entry Check while updating a language", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 52
+#line 56
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -390,18 +380,15 @@ this.FeatureBackground();
                 table4.AddRow(new string[] {
                             "Hindi",
                             "Basic"});
-#line 53
+#line 57
   testRunner.Given("the user profile is set up with the languages:", ((string)(null)), table4, "Given ");
 #line hidden
-#line 58
+#line 62
    testRunner.When("the user wants to update the language or level from \"French\",\"Fluent\" to \"English" +
                         "\",\"Fluent\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 59
+#line 63
    testRunner.Then("the system should block the updation from \'French\' to \'English\'.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 60
-   testRunner.And("Reset record", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -414,7 +401,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_012. Verify the Addition of Language in Two Sessions", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 62
+#line 66
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -437,7 +424,7 @@ this.FeatureBackground();
 #line 3
 this.FeatureBackground();
 #line hidden
-#line 63
+#line 67
     testRunner.And("I open a second session in tab 2.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
@@ -455,17 +442,14 @@ this.FeatureBackground();
                 table5.AddRow(new string[] {
                             "Hindi",
                             "Fluent"});
-#line 64
+#line 68
     testRunner.And("the user profile is set up with the languages in Session 1:", ((string)(null)), table5, "And ");
 #line hidden
-#line 70
+#line 74
     testRunner.When("I create a new language record \'German\' \'Basic\' in Session 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 71
+#line 75
     testRunner.Then("the entry of \'German\',\'Basic\' should be blocked.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 72
- testRunner.And("Reset record", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -478,7 +462,7 @@ this.FeatureBackground();
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("TC_013 Validate the addition of language feature with 1000 characters", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 74
+#line 78
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -501,14 +485,11 @@ this.FeatureBackground();
 #line 3
 this.FeatureBackground();
 #line hidden
-#line 75
+#line 79
  testRunner.When("I create a new language with 1000 random charcaters and level \'Basic\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 76
+#line 80
  testRunner.Then("the addition of language with more than 50 characters should fail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 77
- testRunner.And("Reset record", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

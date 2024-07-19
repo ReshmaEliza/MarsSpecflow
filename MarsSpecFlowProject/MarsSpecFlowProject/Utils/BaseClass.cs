@@ -12,18 +12,17 @@ using TechTalk.SpecFlow;
 
 namespace MarsSpecFlowProject.Utils
 {
-     public class CommonDriver
+     public class BaseClass
     {
 
         public static IWebDriver driver;
-        //public static ThreadLocal<IWebDriver> threaddriver = new ThreadLocal<IWebDriver>();
 
         [BeforeScenario]
         public static void Setup()
         {
 
 
-           driver = new ChromeDriver();
+            driver = new ChromeDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
             driver.Url = "http://localhost:5000/";
             driver.Manage().Window.Maximize();
@@ -33,23 +32,13 @@ namespace MarsSpecFlowProject.Utils
 
         public static IWebDriver getDriver()
         {
-            
+
 
             if (driver == null)
             {
                 Setup();
             }
             return driver;
-        }
-
-       
-
-
-        [AfterScenario]
-        public void Cleanup()
-        {
-
-            driver.Quit();
         }
 
 

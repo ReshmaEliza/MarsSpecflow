@@ -9,7 +9,7 @@ using SeleniumExtras.WaitHelpers;
 
 namespace MarsSpecFlowProject.Utils
 {
-    class WaitUtils:CommonDriver
+    class WaitUtils:BaseClass
     {
       
         private static readonly By NotificationElementLocator = By.ClassName("ns-box-inner");

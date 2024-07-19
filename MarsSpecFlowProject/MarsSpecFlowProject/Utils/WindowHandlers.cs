@@ -2,7 +2,7 @@
 
 namespace MarsSpecFlowProject.Utils
 {
-    class WindowHandlers:CommonDriver
+    class WindowHandlers:BaseClass
     {
 
         public static void NewTab()

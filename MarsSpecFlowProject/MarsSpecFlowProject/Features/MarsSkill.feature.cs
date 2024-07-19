@@ -124,9 +124,6 @@ this.FeatureBackground();
 #line 11
  testRunner.Then("the skill should be saved as \'Test\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 12
- testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
             }
             this.ScenarioCleanup();
         }
@@ -168,9 +165,6 @@ this.FeatureBackground();
 #line hidden
 #line 16
  testRunner.Then("the skill should not be saved \'@@\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 17
- testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -219,15 +213,12 @@ this.FeatureBackground();
       testRunner.Given("the user profile is set up with the Skills:", ((string)(null)), table6, "Given ");
 #line hidden
 #line 26
- testRunner.When("the user wants to update the Skill or level from \"French\",\"Intermediate\" to \"Mal\"" +
+ testRunner.When("the user wants to update the Skill or level from \"french\",\"Intermediate\" to \"Mal\"" +
                         ",\"Intermediate\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 27
     testRunner.Then("the update from skill  \"French\",\"Intermediate\" to skill \"Mal\",\"Intermediate\" is p" +
                         "ossible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 28
- testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -287,9 +278,6 @@ this.FeatureBackground();
 #line 42
     testRunner.Then("the Skill \"French\" should be deleted.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 43
- testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
             }
             this.ScenarioCleanup();
         }
@@ -341,9 +329,6 @@ this.FeatureBackground();
 #line hidden
 #line 52
  testRunner.Then("Adding of second record for skill \'test Engineer\' \'Expert\' fails", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 53
- testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -445,9 +430,6 @@ this.FeatureBackground();
 #line 68
  testRunner.Then("the addition of Skill with more than 50 characters should fail", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 69
- testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
             }
             this.ScenarioCleanup();
         }
@@ -490,9 +472,6 @@ this.FeatureBackground();
 #line hidden
 #line 74
  testRunner.Then("verify if all the 10 elements is added to the system", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 75
- testRunner.And("Reset Data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

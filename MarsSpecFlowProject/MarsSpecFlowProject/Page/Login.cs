@@ -10,43 +10,50 @@ using System.Net.Http;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
-
+using MarsSpecFlowProject.Page;
 
 namespace MarsSpecFlowProject.Page
 {
     public class Login:BasePage
     {
-        //private IWebDriver driver;
-        [FindsBy(How = How.XPath,Using = "//div/a[@class='item']")]
+        public Login() : base() { }
+
+        private static By SignInLocator => By.XPath("//div/a[@class='item']");
         private IWebElement SignIn;
 
-        [FindsBy(How = How.XPath, Using = "//input[@name='email']")]
+        private static By EmailLocator => By.XPath("//input[@name='email']");
         private IWebElement Email;
 
-        [FindsBy(How = How.XPath, Using = "//input[@name='password']")]
+        private static By PasswordElementLocator => By.XPath("//input[@name='password']");
         private IWebElement PasswordElement;
+        private static By loginButtonLocator => By.XPath("//button[contains(text(),'Login')]");
+        private IWebElement loginButton;
 
-        [FindsBy(How = How.XPath, Using = "//button[contains(text(),'Login')]")]
-        IWebElement loginButton;
-            public Login() : base() { }
+
 
 
         public void loginPage(String UserName, String Password)
 
 
         {
+            //Click on signin button
+            SignIn = driver.FindElement(SignInLocator);
             SignIn.Click();
+
+            //Enter username and password
+            Email = driver.FindElement(EmailLocator);
             Email.SendKeys(UserName);
+            PasswordElement = driver.FindElement(PasswordElementLocator);
             PasswordElement.SendKeys(Password);
+
+            loginButton = driver.FindElement(loginButtonLocator);
             loginButton.Click();
             Thread.Sleep(3000);
-              String loginverification_strUrl = driver.Url;
+
+            //checks if login is successful
+            String loginverification_strUrl = driver.Url;
             Assert.That(loginverification_strUrl == "http://localhost:5000/Account/Profile", "Login failed");
         }
-            
-        
-        
-
 
 
     }
