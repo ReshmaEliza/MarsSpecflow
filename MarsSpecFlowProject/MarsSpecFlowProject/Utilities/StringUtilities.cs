@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarsSpecFlowProject.Utils
+namespace MarsSpecFlowProject.Utilities
 {
-     class StringUtilities
+     public class StringUtilities
     {
 
         public static string GenerateRandomString(int length)
@@ -18,6 +18,6 @@ namespace MarsSpecFlowProject.Utils
                 .Select(s => s[random.Next(s.Length)]).ToArray());
 
         }
+
     }
 }
-

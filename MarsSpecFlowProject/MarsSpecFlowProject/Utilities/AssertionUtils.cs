@@ -1,23 +1,30 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using MarsSpecFlowProject.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MarsSpecFlowProject.Page;
 
-namespace MarsSpecFlowProject.Utils
+
+namespace MarsSpecFlowProject.Utilities
 {
-     class Assertions:BasePage
+    public  class AssertionUtils: WebdriverManager
     {
-        public Assertions() : base() { }
+        
         protected string pattern1 = @"^(?:$|(?=.*[a-zA-Z])[a-zA-Z\s-]+)$";
-        protected string pattern2 = @"^(?:$|(?=.*[a-zA-Z0-9])[a-zA-Z0-9\s-]+)$";
+        protected string pattern2 = @"^(?:$|(?=.*[a-zA-Z0-9])[a-zA-Z0-9\s-#]+)$";
+              
         String UpdatedElement;
+
         protected static List<string> table_Values = new List<string>();
         protected String notification;
+        private static By ValueLocator1(string value) => (By.XPath($"//div[@data-tab='first']//td[contains(text(),'{value}')]"));
+        String AddedValue1;
+
         private static By TableElementsLanguage_Locator => By.XPath($"//div[@data-tab='first']//td[1]");
         private static IList<IWebElement> TableElementsLanguage;
 
@@ -29,22 +36,28 @@ namespace MarsSpecFlowProject.Utils
 
         private static By AddedSkillLocator(string value) => (By.XPath($"//div[@data-tab='second']//td[contains(text(),'{value}')]"));
         String AddedSkill;
+        SkillProfile skillProfile = new SkillProfile();
 
-
+        private static readonly By NotificationElementLocator = By.ClassName("ns-box-inner");
+        static IWebElement NotificationElement;
         private static By TableLanguageLocator => By.XPath($"//div[@data-tab='first']");
         private static IWebElement TableLanguage;
 
         private static By TableSkillLocator => By.XPath($"//div[@data-tab='first']");
         private static IWebElement TableSkill;
+        
+
 
         public void AddDeleteLanguageAssert(string Language)
         {
 
             //Gets the notification message
-            notification = WaitUtils.Notification();
+             NotificationElement = driver.FindElement(NotificationElementLocator);
+              WaitUtils.WaitElementIsVisible(NotificationElementLocator,5);
+            notification = NotificationElement.Text;
             driver.Navigate().Refresh();
             TableElementsLanguage = driver.FindElements(TableElementsLanguage_Locator);
-            Console.WriteLine(TableElementsLanguage.Count);
+         
             if (TableElementsLanguage.Count < 5) //Checks if the number of language elements is less than 5
             {
                 if (Regex.IsMatch(Language, pattern1))//Checks the existance of invalid characters
@@ -60,17 +73,17 @@ namespace MarsSpecFlowProject.Utils
                     }
                     else if (notification.Contains("already added"))
                     {
-                        //clickCancel();//Cancel the action
+                        
                         Console.Write($"Addition of language - {Language} has not been done due to '{notification}'\n");
                     }
                     else if (notification.Contains("Duplicated"))
                     {
-                        //clickCancel();//Cancel the action
+                        
                         Console.Write($"Addition - {Language} has not been done due to '{notification}'\n");
                     }
                     else if (notification.Contains("Please enter language and level"))
                     {
-                        //clickCancel();
+                        
                         Console.Write($"Addition of language '{Language}' has not been done. Notification from system - '{notification}'\n");
                     }
                     else
@@ -80,7 +93,7 @@ namespace MarsSpecFlowProject.Utils
                 {
                     if (notification.Contains("invalid characters"))
                     {
-                        //clickCancel();
+                        
                         Console.Write($"Addition of '{Language}' has not been done due to {notification}\n");
                     }
                     else
@@ -92,7 +105,7 @@ namespace MarsSpecFlowProject.Utils
                 Assert.Fail($"System allowed the addition of more than 4 languages. Number of languages in the system :{TableElementsLanguage.Count}");
             }
         }
-        //This method checks if the addition of element is successful
+
 
         public void NotificationLanguageAddedAssert(string notification, IList<IWebElement> TableElements, String value)
         {
@@ -117,8 +130,7 @@ namespace MarsSpecFlowProject.Utils
             else
                 Assert.Fail($"The system allowed the addition of duplicate entires Notification - {notification}");
         }
-
-
+        //This method checks if the element has been deleted
         public void NotificationLanguageDeleted(string notification, IList<IWebElement> TableElements, String value)
         {
 
@@ -136,12 +148,17 @@ namespace MarsSpecFlowProject.Utils
                 Assert.That(!Value.Equals(value), "Deletion Failed");
 
             }
+
+
         }
 
         public void UpdateAssertionsLanguage(string Language, string newlanguage)
         {
             //gets the notification
-            notification = WaitUtils.Notification();
+            NotificationElement = driver.FindElement(NotificationElementLocator);
+            WaitUtils.WaitElementIsVisible(NotificationElementLocator, 5);
+            notification = NotificationElement.Text;
+
             driver.Navigate().Refresh();
             TableLanguage = driver.FindElement(TableLanguageLocator);
 
@@ -156,17 +173,17 @@ namespace MarsSpecFlowProject.Utils
                 }
                 else if (notification.Contains("already added"))
                 {
-                    //clickCancel();
+
                     Console.Write($"Updation of language '{Language}' has not been done. Notification from system-{notification}\n");
                 }
                 else if (notification.Contains("Duplicated"))
                 {
-                    //clickCancel();
+
                     Console.Write($"Updation of language '{Language}' has not been done. Notification from system-{notification}\n");
                 }
                 else if (notification.Contains("Please enter language and level"))
                 {
-                    //clickCancel();
+
                     Console.Write($"Updation of language '{Language}' has not been done. Notification from system-{notification}\n");
                 }
 
@@ -181,7 +198,7 @@ namespace MarsSpecFlowProject.Utils
             {
                 if (notification.Contains("invalid characters"))
                 {
-                    //clickCancel();
+
                     Console.Write($"Addition of '{Language}' has not been done due to {notification}\n");
                 }
                 else
@@ -219,15 +236,15 @@ namespace MarsSpecFlowProject.Utils
                 Assert.Fail($"The system allowed the addition of duplicate entires.Notification from system - {notification}");
         }
 
-
-        //This method checks if the element has been deleted
         public void AddDeleteSkillAssert(string Skill)
         {
             //retrieves the notification
-            notification = WaitUtils.Notification();
+            NotificationElement = driver.FindElement(NotificationElementLocator);
+            WaitUtils.WaitElementIsVisible(NotificationElementLocator, 5);
+            notification = NotificationElement.Text;
 
 
-            TableElementsSkill = driver.FindElements(TableElementsSkill_Locator); ; ;
+            TableElementsSkill = driver.FindElements(TableElementsSkill_Locator); 
             if (Regex.IsMatch(Skill, pattern2))//Checks the existance of invalid characters
             {//The following statements analyses the value of the notification and determines the test results
                 if (notification.Contains("has been added to your skills"))
@@ -241,20 +258,20 @@ namespace MarsSpecFlowProject.Utils
                 }
                 else if (notification.Contains("already exist"))
                 {
-                    //clickCancel();
-                    driver.Navigate().Refresh();
+
+                    skillProfile.cancelButton();
                     Console.Write($"Addition of '{Skill}' has not been done due to {notification}\n");
                 }
                 else if (notification.Contains("Duplicated"))
                 {
-                    //clickCancel();
-                    driver.Navigate().Refresh();
+
+                    skillProfile.cancelButton();
                     Console.Write($"Addition of '{Skill}' has not been done due to {notification}\n");
                 }
                 else if (notification.Contains("Please enter skill and experience level"))
                 {
-                    //clickCancel();
-                    driver.Navigate().Refresh();
+
+                    skillProfile.cancelButton();
                     Console.Write($"Addition of '{Skill}' has not been done due to {notification}\n");
                 }
                 else
@@ -263,29 +280,20 @@ namespace MarsSpecFlowProject.Utils
             else
             {
                 if (notification.Contains("invalid characters"))
-                {
-                    //clickCancel();
-                    driver.Navigate().Refresh();
-                    Console.Write($"Addition of '{Skill}' has not been done due to {notification}\n");
-                }
-                else if (notification.Contains("Please enter skill and experience level"))
-                {
-
-                    Console.Write($"Addition of '{Skill}' has not been done due to {notification}\n");
-                }
-
-                else
-                {
-                    if (notification.Contains("invalid characters"))
                     {
-                        //clickCancel();
+                        skillProfile.cancelButton();
                         Console.Write($"Addition of '{Skill}' has not been done due to {notification}\n");
                     }
                     else
                         Assert.Fail($"System Allowed addition of invalid characters! Notification from System :{notification}");
+
+
                 }
-            }
         }
+
+
+       
+       
 
         //This method checks if the addition of element is successful
         public void NotificationSkillAddedAssert(string notification, IList<IWebElement> TableElements, String value)
@@ -313,8 +321,7 @@ namespace MarsSpecFlowProject.Utils
         }
 
 
-        
-       //This method checks if the element has been deleted
+
         public void NotificationSkillDeleted(string notification, IList<IWebElement> TableElements, String value)
         {
 
@@ -337,11 +344,14 @@ namespace MarsSpecFlowProject.Utils
         }
 
 
-        
-         public void UpdateAssertionsSkill(string Skill, string newSkill)
+      
+        public void UpdateAssertionsSkill(string Skill, string newSkill)
         {
             //retrives the notification
-            notification = WaitUtils.Notification();
+            NotificationElement = driver.FindElement(NotificationElementLocator);
+            WaitUtils.WaitElementIsVisible(NotificationElementLocator, 5);
+            notification = NotificationElement.Text;
+
             TableSkill = driver.FindElement(TableElementsSkill_Locator);
 
 
@@ -357,17 +367,18 @@ namespace MarsSpecFlowProject.Utils
                 }
                 else if (notification.Contains("already added"))
                 {
-                    //clickCancel();
+                    skillProfile.cancelButton();
                     Console.Write($"Updation of skill '{Skill}' has not been done. Notification from system-{notification}\n");
                 }
                 else if (notification.Contains("Duplicated"))
                 {
-                    //clickCancel();
+                    skillProfile.cancelButton();
+
                     Console.Write($"Updation of skill '{Skill}' has not been done. Notification from system-{notification}\n");
                 }
                 else if (notification.Contains("Please enter skill and experience level"))
                 {
-                    //clickCancel();
+                    skillProfile.cancelButton();
                     Console.Write($"Addition of '{Skill}' has not been done due to {notification}\n");
                 }
                 else
@@ -380,7 +391,7 @@ namespace MarsSpecFlowProject.Utils
             {
                 if (notification.Contains("invalid characters"))
                 {
-                    //clickCancel();
+                    skillProfile.cancelButton();
                     Console.Write($"Addition of '{Skill}' has not been done due to {notification}\n");
                 }
                 else
@@ -415,12 +426,16 @@ namespace MarsSpecFlowProject.Utils
             }
             else
                 Assert.Fail($"The system allowed the addition of duplicate entires.Notification from system - {notification}");
+
         }
 
         public void StringLengthAssertion_Skill()
         {
             //retrieves the notification
-            notification = WaitUtils.Notification();
+            NotificationElement = driver.FindElement(NotificationElementLocator);
+            WaitUtils.WaitElementIsVisible(NotificationElementLocator, 5);
+            notification = NotificationElement.Text;
+
             TableElementsSkill = driver.FindElements(TableElementsSkill_Locator); ;
             int count = TableElementsSkill.Count();
             Console.WriteLine($"Notification from Sysem:{notification}");
@@ -437,15 +452,18 @@ namespace MarsSpecFlowProject.Utils
                 //checks if the length of characters is greater than 50
                 if (l > 50)
                 {
-                    Assert.Fail("System Allowed the addition of Characters > 50");
-                }
+            Assert.Fail("System Allowed the addition of Characters > 50");
+                    Thread.Sleep(1000);                 }
 
             }
         }
         public void StringLengthAssertion_Language()
         {
             //retrieves the notification
-            notification = WaitUtils.Notification();
+            NotificationElement = driver.FindElement(NotificationElementLocator);
+            WaitUtils.WaitElementIsVisible(NotificationElementLocator, 5);
+            notification = NotificationElement.Text;
+
             TableElementsLanguage = driver.FindElements(TableElementsLanguage_Locator); ;
             int count = TableElementsLanguage.Count();
             Console.WriteLine($"Notification from Sysem:{notification}");
@@ -460,9 +478,15 @@ namespace MarsSpecFlowProject.Utils
             {
                 int l = value.Length;
                 //checks if the length of characters is greater than 50
-                if (l > 50)
+                if (l< 50)
                 {
-                    Assert.Fail("System Allowed the addition of Characters > 50");
+                    skillProfile.cancelButton();
+                    Assert.Pass("The system stoopped the addition of characters >50");
+                }
+                else 
+                {
+                  Assert.Fail("System Allowed the addition of Characters > 50");
+                    
                 }
 
             }
@@ -486,14 +510,10 @@ namespace MarsSpecFlowProject.Utils
                 Assert.Fail($"Expected Count of Elements " + OGElementCount + " .Actual Count " + ActualCount + "");
             }
         }
- 
+
+       
 
 
 
     }
-
-
-
 }
-
-

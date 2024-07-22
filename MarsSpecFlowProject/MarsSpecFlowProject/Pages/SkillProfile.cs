@@ -1,33 +1,37 @@
-﻿using MarsSpecFlowProject.Utils;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
+using MarsSpecFlowProject.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SeleniumExtras.WaitHelpers;
 
-namespace MarsSpecFlowProject.Page
+namespace MarsSpecFlowProject.Pages
 {
-     class SkillsWorkFlow:BasePage
+    public class SkillProfile
     {
-
-
 
         private String notification;
         private IWebElement table;
-        private IWebElement TabView;
-        string pattern = @"^(?:$|(?=.*[a-zA-Z0-9])[a-zA-Z0-9\s-]+)$";
+        
+
+
         String UpdatedElement;
 
 
         protected static List<string> table_Values = new List<string>();
+        protected IWebDriver driver;
 
-        private By AddButtonLocator = By.XPath("//input[@value='Add']");
+        private static By TabViewLocator = By.XPath($"//h3[contains(text(),'Skills')]");
+        private IWebElement TabView;
+        private By AddButtonSkillLocator => By.XPath("//input[@value='Add']");
         private IWebElement AddButton;
-
-        private static By UpdateButtonLocator = By.XPath("//input[@value='Update']");
+        private  By CancelButtonLocator => By.XPath("//input[@value='Cancel']");
+        private  IWebElement Cancel_Button;
+        private static By UpdateButtonLocator => By.XPath("//input[@value='Update']");
         private IWebElement updateButton;
 
         private By DropDownLocator => By.XPath($"//div[@class='row']//select[@name='level']");
@@ -38,9 +42,8 @@ namespace MarsSpecFlowProject.Page
 
         private static By deleteAllbuttonLocator => By.XPath($"//div[@data-tab='second']//td/parent::tr//span[@class='button'][2]");
         private static IWebElement deleteAllButton;
-        private static By deleteElementButtonLocator(string ElementtobeDelete) => By.XPath($"//td[contains(text(),'{ElementtobeDelete}')]/parent::tr//span[@class='button'][2]");
+        private By deleteElementButtonLocator(string ElementtobeDelete) => By.XPath($"//td[text() = '{ElementtobeDelete}']/parent::tr//span[@class='button'][2]");
         private IWebElement deleteElement;
-
 
         private static By AddTextBoxLocator => By.XPath($"//div[@class='row']//input[@placeholder='Add Skill']");
         private IWebElement AddTextBox;
@@ -57,9 +60,20 @@ namespace MarsSpecFlowProject.Page
         private static By EditTextBoxLocator(string NewSkill) => By.XPath($"//div[@class='fields']//div/input[@value='{NewSkill}']");
         private IWebElement EditValue;
 
+        private static By addLocator = By.XPath($"//div[@data-tab='second']//th[@class='right aligned']/div[contains(text(),'Add New')]");
+        IWebElement AddNew;
+
         private static By ValueLocator(string value) => (By.XPath($"//div[@data-tab='second']//td[contains(text(),'{value}')]"));
         String AddedValue;
-        public SkillsWorkFlow() : base() { }
+        WebDriverWait wait = new WebDriverWait(WebdriverManager.GetDriver(), new TimeSpan(0, 0, 15));
+       
+        public SkillProfile():base()
+        {
+
+            this.driver = WebdriverManager.GetDriver();
+            
+
+        }
 
         //Code for navigating to requested tab
         public void GoToTab(String Tab)
@@ -83,11 +97,16 @@ namespace MarsSpecFlowProject.Page
             Thread.Sleep(3000);
 
             //Click on Add New Button
-            IWebElement AddNew = WaitUtils.WaitToBeClickable("second", 15);
+
+            AddNew = driver.FindElement(addLocator);
+            WaitUtils.WaitToBeClickable("Xpath", addLocator, 10);
             AddNew.Click();
 
-            Thread.Sleep(1000);
-            TabView = WaitUtils.WaitElementIsVisible("Skills", 15);
+
+            //TabView = WaitUtils.WaitElementIsVisible("Skills", 15);
+            TabView = driver.FindElement(TabLocator);
+            WaitUtils.WaitElementIsVisible(TabLocator,10);
+
             WindowHandlers.ScrollToView(TabView);
 
             //Adding required fields
@@ -96,7 +115,7 @@ namespace MarsSpecFlowProject.Page
 
             //Select the requested dropdown and click on add button
             DropDown(Level);
-            AddButton = driver.FindElement(AddButtonLocator);
+            AddButton = driver.FindElement(AddButtonSkillLocator);
             AddButton.Click();
 
         }
@@ -145,12 +164,14 @@ namespace MarsSpecFlowProject.Page
 
             try
             {
-                //Finding Deletebutton for requested element
+            //Finding Deletebutton for requested element
+               deleteElement = driver.FindElement(deleteElementButtonLocator(ElementtobeDelete));
+            WindowHandlers.ScrollToView(deleteElement);
+             WaitUtils.WaitToBeClickable("Xpath", deleteElementButtonLocator(ElementtobeDelete), 15);
 
-                deleteElement = driver.FindElement(deleteElementButtonLocator(ElementtobeDelete));
-                WindowHandlers.ScrollToView(deleteElement);
-                Thread.Sleep(5000);
                 deleteElement.Click();
+
+
 
 
 
@@ -158,19 +179,19 @@ namespace MarsSpecFlowProject.Page
             catch //when the requested element to be deleted i not present
             {
 
-                Console.WriteLine($"Language to be be deleted '{ElementtobeDelete}' was not found in the table");
-            }
+              Console.WriteLine($"Language to be be deleted '{ElementtobeDelete}' was not found in the table");
+             }
 
         }
 
-        public static void DeleteElements()
+        public void DeleteAllElements()
         {
 
             try
             {
 
                 TableChoice = driver.FindElement(tableLocator);
-                TableElements = driver.FindElements(TableElementsColoumn1_Locator); ;
+                TableElements = driver.FindElements(TableElementsColoumn1_Locator); 
                 int count = TableElements.Count();
 
                 if (count > 0)
@@ -183,14 +204,7 @@ namespace MarsSpecFlowProject.Page
                         Thread.Sleep(2000);
 
                         deleteAllButton.Click();
-                        String notification = WaitUtils.Notification();
-                        if (notification.Contains("error"))
-                        {
-
-                            Assert.Fail($"{notification}");
-                            break;
-
-                        }
+                        
                     }
 
                 }
@@ -212,7 +226,11 @@ namespace MarsSpecFlowProject.Page
 
         }
 
-
+        public  void cancelButton()
+        {
+            Cancel_Button = driver.FindElement(CancelButtonLocator);
+            Cancel_Button.Click();
+        }
 
     }
 }

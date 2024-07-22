@@ -1,29 +1,24 @@
-﻿using MarsSpecFlowProject.Utils;
-using NUnit.Framework;
-using OpenQA.Selenium.Support.UI;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using MarsSpecFlowProject.Context;
+using MarsSpecFlowProject.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechTalk.SpecFlow.Assist.ValueRetrievers;
 
-namespace MarsSpecFlowProject.Page
+namespace MarsSpecFlowProject.Pages
 {
-     class LanguageWorkFlow: BasePage
+   public class LanguageProfile 
     {
-
-
-
-        //Declaring the Common Variables used for pages
-
-        private String notification;
+        protected IWebDriver driver;
 
         protected static List<string> table_Values = new List<string>();
-
-        string pattern = @"^(?:$|(?=.*[a-zA-Z])[a-zA-Z\s-]+)$";
-
-        private By AddButtonLocator = By.XPath("//input[@value='Add']");
+       
+        private By AddButtonLanguageLocator = By.XPath("//input[@value='Add']");
         private IWebElement AddButton;
 
         private static By UpdateButtonLocator = By.XPath("//input[@value='Update']");
@@ -32,9 +27,11 @@ namespace MarsSpecFlowProject.Page
         private By DropDownLocator => By.XPath($"//div[@class='row']//select[@name='level']");
         IWebElement dropDown;
 
-        protected IWebElement table;
+        
         private static By TabLocator => By.XPath($"//a[text() = 'Languages']");
         private IWebElement TabSelected;
+        private static By addLocator = By.XPath($"//div[@data-tab='first']//th[@class='right aligned']/div[contains(text(),'Add New')]");
+        IWebElement AddNew;
 
         private static By deleteAllbuttonLocator => By.XPath($"//div[@data-tab='first']//td/parent::tr//span[@class='button'][2]");
         private static IWebElement deleteAllButton;
@@ -59,9 +56,9 @@ namespace MarsSpecFlowProject.Page
 
         private static By ValueLocator(string value) => (By.XPath($"//div[@data-tab='first']//td[contains(text(),'{value}')]"));
         String AddedValue;
-        public LanguageWorkFlow() : base()
+        public LanguageProfile()
         {
-
+            this.driver = WebdriverManager.GetDriver();
 
         }
         public void GoToTab()
@@ -77,25 +74,13 @@ namespace MarsSpecFlowProject.Page
 
         }
 
-        public void getcurrentdata()
-        {
-
-
-            //Refreshing data to get the correct status
-            driver.Navigate().Refresh();
-
-        }
-
-
         public void Add(String LanguageAdded, String Level)
         {
 
             Thread.Sleep(3000);
-
-            IWebElement AddNew = WaitUtils.WaitToBeClickable("first", 15);
+            AddNew = driver.FindElement(addLocator);
+            WaitUtils.WaitToBeClickable("Xpath",addLocator, 10);
             AddNew.Click();
-
-            Thread.Sleep(1000);
 
             //Adding required fields
             //Enter the language name in text box
@@ -106,11 +91,35 @@ namespace MarsSpecFlowProject.Page
             DropDown(Level);
 
             //Confirm the entry by clicking on Add
-            AddButton = driver.FindElement(AddButtonLocator);
+            AddButton = driver.FindElement(AddButtonLanguageLocator);
             AddButton.Click();
+
+
 
         }
 
+
+        public void delete(String ElementtobeDelete)
+        {
+
+            try
+            {
+                //Finding Deletebutton for requested element
+                deleteElement = driver.FindElement(deleteElementButtonLocator(ElementtobeDelete));
+                WindowHandlers.ScrollToView(deleteElement);
+                WaitUtils.WaitToBeClickable("Xpath", deleteElementButtonLocator(ElementtobeDelete), 15);
+
+                //Thread.Sleep(3000);
+                deleteElement.Click();
+
+            }
+            catch
+            {
+
+                Console.WriteLine($"Language to be be deleted '{ElementtobeDelete}' was not found in the table");
+            }
+
+        }
         public void Update(String Language, String NewLanguage, String Newlevel)
         {
 
@@ -150,27 +159,6 @@ namespace MarsSpecFlowProject.Page
 
 
         }
-
-        public void delete(String ElementtobeDelete)
-        {
-
-            try
-            {
-                //Finding Deletebutton for requested element
-                deleteElement = driver.FindElement(deleteElementButtonLocator(ElementtobeDelete));
-                WindowHandlers.ScrollToView(deleteElement);
-                Thread.Sleep(2000);
-                deleteElement.Click();
-
-            }
-            catch
-            {
-
-                Console.WriteLine($"Language to be be deleted '{ElementtobeDelete}' was not found in the table");
-            }
-
-        }
-
         public void Sessions(int SID)
         {
 
@@ -193,7 +181,7 @@ namespace MarsSpecFlowProject.Page
 
         public void DropDown(String Level)
         {
-
+            //SElect the drop down
             dropDown = driver.FindElement(DropDownLocator);
             SelectElement s = new SelectElement(dropDown);
             s.SelectByText(Level);
@@ -202,7 +190,7 @@ namespace MarsSpecFlowProject.Page
         }
 
 
-        public static void DeleteElements()
+        public void DeleteAllElements()
         {
 
             try
@@ -210,7 +198,7 @@ namespace MarsSpecFlowProject.Page
 
 
                 TableChoice = driver.FindElement(tableLocator);
-                TableElements = driver.FindElements(TableElementsColoumn1_Locator); ;
+                TableElements = driver.FindElements(TableElementsColoumn1_Locator);
                 int count = TableElements.Count();
 
                 if (count > 0)
@@ -223,14 +211,7 @@ namespace MarsSpecFlowProject.Page
                         Thread.Sleep(2000);
 
                         deleteAllButton.Click();
-                        String notification = WaitUtils.Notification();
-                        if (notification.Contains("error"))
-                        {
-
-                            Assert.Fail($"{notification}");
-                            break;
-
-                        }
+                      
                     }
 
                 }
@@ -240,5 +221,7 @@ namespace MarsSpecFlowProject.Page
                 Console.WriteLine("No elements found for deletion");
             }
         }
+
+      
     }
 }

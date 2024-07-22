@@ -8,7 +8,9 @@
 
   <ItemGroup>
     <SpecFlowObsoleteCodeBehindFiles Remove="Features\Language.feature.cs" />
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\Languagefile.feature.cs" />
     <SpecFlowObsoleteCodeBehindFiles Remove="Features\Skill.feature.cs" />
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\Skillfile.feature.cs" />
   </ItemGroup>
 
   <ItemGroup>
